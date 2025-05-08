@@ -21,6 +21,7 @@
     max-height: 4rem;
     width: auto;
     display: block;
+    cursor: pointer;
 }
 
 /* Links del nav */
