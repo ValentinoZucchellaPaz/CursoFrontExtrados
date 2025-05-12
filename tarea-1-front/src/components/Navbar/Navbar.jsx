@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './NavBar.css';
 import logo from "../../assets/logo_chico.png"
 import { Link, useNavigate } from 'react-router-dom';
