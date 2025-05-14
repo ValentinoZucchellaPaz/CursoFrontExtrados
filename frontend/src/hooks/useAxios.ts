@@ -1,17 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../services/apiClient';
-import { AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 
 
 export default function useAxios<T>(config: AxiosRequestConfig, options = { manual: false }): {
     data: T | null,
-    error: string | null,
+    error: AxiosError | null,
     loading: boolean,
     refetch: (overrideConfig?: {}) => Promise<void>
 } {
     const [data, setData] = useState<T | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<AxiosError | null>(null);
     const [loading, setLoading] = useState(false);
 
     const fetchData = useCallback(async (overrideConfig = {}) => {

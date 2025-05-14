@@ -10,6 +10,7 @@ import { setAuthToken } from "../services/apiClient";
 import { Pokemons } from "../pages/Pokemons";
 import PokemonDetail from "../pages/Pokemons/PokemonDetail";
 import { useAppSelector } from "../store/hooks";
+import { TorneoTest } from "../pages/TorneoTest";
 
 export function AppRoutes() {
 
@@ -35,6 +36,7 @@ export function AppRoutes() {
 
             <Route path="/pokemons" element={<Pokemons />} />
             <Route path="/pokemons/:pokemonName" element={<PokemonDetail />} />
+            <Route path="/prueba-back" element={<TorneoTest />} />
 
             <Route path='*' element={<NotFound />} />
         </Routes>
