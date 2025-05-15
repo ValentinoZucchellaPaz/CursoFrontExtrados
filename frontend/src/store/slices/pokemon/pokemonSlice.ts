@@ -1,16 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { AllPokemons, Pokemon } from './types';
+import { request } from '../../../services/request';
 
-
+const url = 'https://pokeapi.co/api/v2/pokemon?limit=151'
+// const url = `http://localhost:5125/info/cartas/${pokemonName}`
 
 // Thunk para obtener los posts
 export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
-    const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
-    return response.data;
+    // version con axios solo y llamado a api backend .net
+    // export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
+    // const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
+    // return response.data;
+    const response = await request<AllPokemons>({ url, method: "GET" });
+    return response;
 });
 
 interface PokemonState {
+    // items: Pokemon[] | null,
     items: AllPokemons | null,
     status: 'idle' | 'loading' | 'succeeded' | 'failed',
     error: string | null

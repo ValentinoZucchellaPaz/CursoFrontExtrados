@@ -11,7 +11,7 @@ export default function PokemonDetail({ }) {
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}` // usando pokeapi
 
     // const { data: pokemon, loading, error } = useFetch<Pokemon>(url) // usando useFetch
-    // const { data: pokemon, loading, error } = useAxios<ApiCardType>({ url, method: "GET" })
+    // const { data: pokemon, loading, error } = useAxios<ApiCardType>({ url, method: "GET" }) // cambia el tipo que retorna
     const { data: pokemon, loading, error } = useAxios<Pokemon>({ url, method: "GET" })
     console.log(pokemon);
 

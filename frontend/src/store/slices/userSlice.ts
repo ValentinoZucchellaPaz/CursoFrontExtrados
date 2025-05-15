@@ -10,6 +10,7 @@ export interface User {
 export type UserState = User | null;
 
 const initialState: UserState = JSON.parse(localStorage.getItem("bootcamp-extrados-user") || "null")
+// TODO que se extraiga del localstorage o buscar de cookie, preguntar como se hace!!!!!!!!!
 
 const userSlice = createSlice({
     name: 'user',

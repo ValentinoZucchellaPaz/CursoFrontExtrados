@@ -11,6 +11,7 @@ import { Pokemons } from "../pages/Pokemons";
 import PokemonDetail from "../pages/Pokemons/PokemonDetail";
 import { useAppSelector } from "../store/hooks";
 import { TorneoTest } from "../pages/TorneoTest";
+import { Users } from "../pages/Users";
 
 export function AppRoutes() {
 
@@ -32,6 +33,7 @@ export function AppRoutes() {
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/posts/:postId" element={<PostsDetail />} />
                 {/* other protected routes */}
+                <Route path="/users" element={<Users />} />
             </Route>
 
             <Route path="/pokemons" element={<Pokemons />} />

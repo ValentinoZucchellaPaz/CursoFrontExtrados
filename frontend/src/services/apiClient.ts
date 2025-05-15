@@ -1,6 +1,8 @@
 import axios, { InternalAxiosRequestConfig, AxiosError } from 'axios';
+import { store } from '../store/store';
 
 const apiClient = axios.create({
+    // withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -15,14 +17,13 @@ export const setAuthToken = (newToken: string | null) => {
 // interceptor para agregar token si hay
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        const tok = store.getState().auth.token
+        if (tok) {
+            config.headers.Authorization = `Bearer ${tok}`;
         }
         return config;
     },
-    (error: AxiosError) => {
-        return Promise.reject(error);
-    }
+    (error: AxiosError) => Promise.reject(error)
 );
 
 // interceptor de errores
@@ -36,7 +37,7 @@ apiClient.interceptors.response.use(
 
             switch (status) {
                 case 401:
-                    console.warn('🔒 No autorizado. Redirigiendo al login...');
+                    console.warn('🔒 No autorizado. Haz un login...');
                     break;
                 case 403:
                     console.warn('🚫 Prohibido. Acceso denegado.');
@@ -55,5 +56,7 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+// uso interceptor para poner auth token desde la cookie o algo aca?
 
 export default apiClient;

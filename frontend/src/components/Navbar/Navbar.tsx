@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
+import { decodeToken } from '../../utils/decodeToken';
 
 interface LinkProp {
 	url: string
@@ -15,6 +17,7 @@ interface NavbarProps {
 
 const NavBar = ({ links = [] }: NavbarProps) => {
 	const [menuOpen, setMenuOpen] = useState(false)
+
 	const navigate = useNavigate()
 	return (
 		<header className='header-main'>

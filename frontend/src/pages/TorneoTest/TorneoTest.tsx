@@ -12,7 +12,7 @@ export interface ApiCardType {
 
 const TorneoTest = ({ }) => {
 
-	const { data, loading, error } = useAxios<ApiCardType>({ url: "http://localhost:5125/info/cartas/charizard", method: "GET" })
+	const { data, loading, error } = useAxios<ApiCardType>({ url: "http://localhost:5125/info/cartas/charizard", method: "GET" }) // llamado a api .net, la cual hace un llamado a db mySql, todo local (se deben levantar)
 	console.log(error);
 
 
