@@ -5,23 +5,31 @@ import { NotFound } from "../pages/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
 import PostsDetail from "../pages/Posts/PostsDetail";
 import { Login } from "../pages/Login";
-import { useEffect } from "react";
-import { setAuthToken } from "../services/apiClient";
+import { useEffect, useState } from "react";
 import { Pokemons } from "../pages/Pokemons";
 import PokemonDetail from "../pages/Pokemons/PokemonDetail";
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { TorneoTest } from "../pages/TorneoTest";
 import { Users } from "../pages/Users";
+import { refreshAccessToken } from "../store/thunks/authThunks";
+import UsersDetail from "../pages/Users/UsersDetail";
+
 
 export function AppRoutes() {
-
-    const user = useAppSelector(state => state.user)
+    const dispatch = useAppDispatch()
+    const { token } = useAppSelector(state => state.auth)
+    const [authChecked, setAuthChecked] = useState(false)
 
     useEffect(() => {
-        if (user?.token) {
-            setAuthToken(user.token)
+        console.log(token);
+
+        if (!token) {
+            console.log("problemo");
+            dispatch(refreshAccessToken()).finally(() => setAuthChecked(true))
         }
-    }, [user])
+    }, [dispatch])
+
+    if (!authChecked) return <p>Cargando usuario...</p>
 
 
     return (
@@ -29,11 +37,12 @@ export function AppRoutes() {
             <Route path='/' element={<Home />} />
             <Route path="/login" element={<Login />} />
 
-            <Route element={<ProtectedRoute isAllowed={!!user} redirectPath="/login" />}>
+            <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/posts/:postId" element={<PostsDetail />} />
                 {/* other protected routes */}
                 <Route path="/users" element={<Users />} />
+                <Route path="/users/:userId" element={<UsersDetail />} />
             </Route>
 
             <Route path="/pokemons" element={<Pokemons />} />

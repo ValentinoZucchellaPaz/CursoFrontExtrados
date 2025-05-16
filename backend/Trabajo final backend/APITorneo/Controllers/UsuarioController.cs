@@ -31,19 +31,21 @@ namespace APITorneo.Controllers
             var user = await _userService.Authenticate(request);
             if(user == null) return Unauthorized("mail o contraseña incorrectos");
 
-            DTOTokens tokens = await _authService.GenerateTokens(user.Id, user.Email, user.Role);
+            DTOJWT accessToken = _authService.GenerateAccessToken(user.Id, user.Email, user.Role);
+            DTOJWT refreshToken = await _authService.GenerateRefreshToken(user.Id, user.Email, user.Role);
+
             DTOLoginResponse res = new()
             {
-                AccessToken = tokens.AccessToken,
+                AccessToken = accessToken.Token,
                 UserId = user.Id,
                 UserEmail = user.Email,
                 UserRole = user.Role,
             };
 
-            Response.Cookies.Append("torneo-refresh-token", $"{user.Id}:{tokens.RefreshToken}", new CookieOptions()
+            Response.Cookies.Append("torneo-refresh-token", $"{user.Id}:{refreshToken.Token}", new CookieOptions()
             {
                 Secure = true,
-                Expires = tokens.RefreshTokenExpiration,
+                Expires = refreshToken.Expiration,
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict,
             });
@@ -75,23 +77,11 @@ namespace APITorneo.Controllers
             var usuario = await _userService.GetUsuarioDisponiblePorId(UserRole.admin, userId.ToString())
                 ?? throw new UnauthorizedAccessException($"El usuario con id {userId} no existe");
 
-            //elimino refresh token y creo uno nuevo
-            var deleted = await _authService.BorrarRefreshToken(userId, refreshToken);
-            if (!deleted) throw new DBConcurrencyException("error eliminando el refresh token");
 
-            var tokens = await _authService.GenerateTokens(userId, usuario.Email, usuario.Role);
-
-            //devuelvo access token en response y refresh token en cookie
-            Response.Cookies.Append("torneo-refresh-token", $"{usuario.Id}:{tokens.RefreshToken}", new CookieOptions()
-            {
-                Secure = true,
-                Expires = tokens.RefreshTokenExpiration,
-                HttpOnly = true,
-                SameSite = SameSiteMode.Strict
-            });
+            var accessToken = _authService.GenerateAccessToken(userId, usuario.Email, usuario.Role);
 
             return Ok(new DTOLoginResponse() { 
-                AccessToken=tokens.AccessToken,
+                AccessToken=accessToken.Token,
                 UserEmail=usuario.Email,
                 UserId=usuario.Id,
                 UserRole=usuario.Role,

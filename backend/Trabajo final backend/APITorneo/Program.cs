@@ -14,6 +14,7 @@ using Data_Access.DAORefreshToken;
 using Services.InfoService;
 
 var builder = WebApplication.CreateBuilder(args);
+var allowedOrigin = "http://localhost:5173";
 
 // Add services to the container.
 
@@ -45,12 +46,16 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+        policy
+            .WithOrigins(allowedOrigin)
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (connectionString == null) throw new Exception("No se configuró la coneccion a db");
+if (connectionString == null) throw new Exception("No se configurï¿½ la coneccion a db");
 
 // DbHelper
 builder.Services.AddSingleton(new DbHelper(connectionString));

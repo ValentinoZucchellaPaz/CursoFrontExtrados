@@ -2,8 +2,9 @@
 import { useParams } from 'react-router-dom';
 import './Posts.css';
 import { useEffect, useState } from 'react';
-import { fetchPosts, Post } from '../../store/slices/postSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { Post } from '../../store/types';
+import { fetchPosts } from '../../store/thunks/postsThunks';
 
 const PostsDetail = () => {
 	const [post, setPost] = useState<Post | null>(null)

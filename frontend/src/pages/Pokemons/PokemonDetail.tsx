@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import useAxios from "../../hooks/useAxios"
 import { Pokemon } from "../../store/slices/pokemon/types";
 import { ApiCardType } from "../TorneoTest/TorneoTest";
+import useFetch from "../../hooks/useFetch";
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
@@ -10,13 +11,13 @@ export default function PokemonDetail({ }) {
     // const url = `http://localhost:5125/info/cartas/${pokemonName}` // usando db de backend .net
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}` // usando pokeapi
 
-    // const { data: pokemon, loading, error } = useFetch<Pokemon>(url) // usando useFetch
+    const { data: pokemon, loading, error } = useFetch<Pokemon>(url) // usando useFetch
     // const { data: pokemon, loading, error } = useAxios<ApiCardType>({ url, method: "GET" }) // cambia el tipo que retorna
-    const { data: pokemon, loading, error } = useAxios<Pokemon>({ url, method: "GET" })
+    // const { data: pokemon, loading, error } = useAxios<Pokemon>({ url, method: "GET" })
     console.log(pokemon);
 
     if (loading) return <p>Cargando...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <div>

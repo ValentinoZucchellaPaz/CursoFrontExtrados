@@ -20,11 +20,6 @@ export default function useAxios<T>(config: AxiosRequestConfig, options = { manu
         try {
             const response = await request<T>({ ...config, ...overrideConfig });
             setData(response);
-            // const response = await apiClient({
-            //     ...config,
-            //     ...overrideConfig
-            // });
-            // setData(response.data);
             setError(null);
         } catch (err: any) {
             setError(err);

@@ -2,8 +2,8 @@
 import './Posts.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchPosts } from '../../store/slices/postSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchPosts } from '../../store/thunks/postsThunks';
 
 const Posts = ({ }) => {
 

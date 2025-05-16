@@ -10,10 +10,10 @@ const url = 'https://pokeapi.co/api/v2/pokemon?limit=151'
 export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
     // version con axios solo y llamado a api backend .net
     // export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
-    // const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
-    // return response.data;
-    const response = await request<AllPokemons>({ url, method: "GET" });
-    return response;
+    const response = await axios.get<AllPokemons>('https://pokeapi.co/api/v2/pokemon?limit=151');
+    return response.data;
+    // const response = await request<AllPokemons>({ url, method: "GET" });
+    // return response;
 });
 
 interface PokemonState {

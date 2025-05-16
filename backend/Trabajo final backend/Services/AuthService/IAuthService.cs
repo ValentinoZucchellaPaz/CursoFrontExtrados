@@ -11,9 +11,9 @@ namespace Services.AuthService
         /// <param name="userMail">Mail del usuario</param>
         /// <param name="role">Rol del usuario</param>
         /// <returns>Token generado</returns>
-        public Task<DTOTokens> GenerateTokens(int userId, string userMail, string role);
+        public DTOJWT GenerateAccessToken(int userId, string userMail, string role);
 
-
+        public Task<DTOJWT> GenerateRefreshToken(int userId, string userMail, string role);
 
         public Task<bool> ValidarRefreshToken(int userId, string token);
         public Task<bool> BorrarRefreshToken(int userId, string token);

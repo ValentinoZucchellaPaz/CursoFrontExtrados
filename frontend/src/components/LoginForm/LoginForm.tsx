@@ -1,58 +1,37 @@
 "use client"
 import { useState } from 'react';
-import { loginSuccess } from '../../store/slices/authSlice';
 import { useAppDispatch } from '../../store/hooks';
-import { request } from '../../services/request';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../store/thunks/authThunks';
 
-interface APILoginResponse {
-	accessToken: string
-	userId: number
-	userEmail: string
-	userRole: string
-}
+
 
 export default function Login() {
 	const navigate = useNavigate()
 	const [email, setEmail] = useState('');
 	const [contraseña, setContraseña] = useState('');
 	const [error, setError] = useState('');
-
-	const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch()
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError('');
 
+
 		try {
-			const res = await request<APILoginResponse>({
-				url: 'http://localhost:5125/usuario/login',
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				data: { email, contraseña }
-			});
-
-			// const data = await res.json(); // { token, role }
-			console.log("exito");
-			console.log(res);
-
-			dispatch(loginSuccess({
-				token: res.accessToken,
-				role: res.userRole,
-				userId: res.userId.toLocaleString(),
-				userMail: res.userEmail
-			}));
+			await dispatch(loginUser({
+				email, contraseña
+			})).unwrap()
 
 			// toast indicando inicio de sesion exitoso
+			console.log("exito");
 
 			navigate("/")
 
 		} catch (err: any) {
 			console.log(err);
 
-			setError(err.response.data.Detail || err.response.data.title || 'Error inesperado');
+			setError('Error inesperado');
 		}
 	};
 
