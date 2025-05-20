@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(
     async (error: AxiosError) => {
         const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-        if (error.response?.status === 403 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
@@ -49,6 +49,8 @@ apiClient.interceptors.response.use(
 
                 return apiClient(originalRequest);
             } catch (refreshError) {
+                console.log('error en reenvio de refresh');
+
                 store.dispatch(logout());
                 return Promise.reject(refreshError);
             }
@@ -90,7 +92,5 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-// uso interceptor para poner auth token desde la cookie o algo aca?
 
 export default apiClient;

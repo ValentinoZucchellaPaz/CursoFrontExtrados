@@ -1,8 +1,9 @@
-"use client"
 import { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../store/thunks/authThunks';
+import './LoginForm.css'
+import { AxiosError } from 'axios';
 
 
 
@@ -31,17 +32,34 @@ export default function Login() {
 		} catch (err: any) {
 			console.log(err);
 
-			setError('Error inesperado');
+			setError(err?.message);
 		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2>Login</h2>
-			<label>Email: <input value={email} onChange={e => setEmail(e.target.value)} /></label>
-			<label>Contraseña: <input type="password" value={contraseña} onChange={e => setContraseña(e.target.value)} /></label>
-			<button type="submit">Entrar</button>
-			{error && <p style={{ color: 'red' }}>{error}</p>}
-		</form>
+		<div className='login-container'>
+			<form onSubmit={handleSubmit} className='login-form'>
+				<h2>Login</h2>
+				<label>Email:
+					<input
+						type='email'
+						value={email}
+						onChange={e => setEmail(e.target.value)}
+						required
+					/>
+				</label>
+				<label>
+					Contraseña:
+					<input
+						type="password"
+						value={contraseña}
+						onChange={e => setContraseña(e.target.value)}
+						required
+					/>
+				</label>
+				{error && <p className='error-message'>{error}</p>}
+				<button type="submit">Entrar</button>
+			</form>
+		</div>
 	);
 }

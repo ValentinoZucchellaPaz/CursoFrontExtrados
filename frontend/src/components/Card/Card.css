@@ -1,0 +1,54 @@
+/* Card.css */
+.card {
+    background-color: var(--surface);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 10px var(--primary);
+    color: var(--text);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 60vw;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--primary-light);
+}
+
+.card-image img {
+    width: 100%;
+    max-width: auto;
+    height: auto;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    object-fit: cover;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+.card-content p {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.card-footer {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    opacity: 0.6;
+}
+
+@media (max-width: 800px) {
+    .card {
+        max-width: 100%;
+    }
+}

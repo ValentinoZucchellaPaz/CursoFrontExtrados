@@ -1,7 +1,13 @@
 /* Estilos generales */
+
+.navbar-scrolled {
+    backdrop-filter: blur(6px);
+    background-color: rgba(17, 17, 34, 0.85);
+}
+
 .nav {
-    background-color: #111111;
-    color: white;
+    background-color: var(--navbar-bg);
+    color: var(--text);
     padding: 1rem 4rem;
     position: sticky;
     top: 0;
@@ -33,13 +39,13 @@
 }
 
 .nav-links a {
-    color: white;
+    color: var(--text);
     text-decoration: none;
-    transition: text-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
-    text-shadow: 0 0 5px #00f7ff;
+    text-shadow: 0 0 10px var(--primary-light);
 }
 
 /* Botón de menú para mobile */
@@ -74,6 +80,7 @@
     }
 
     .menu-toggle {
+        background: none;
         display: block;
     }
 

@@ -42,3 +42,12 @@ export interface APIUserProps {
     alias: string
     avatar: string
 }
+
+export interface AuthTokenPayload {
+    accessToken: string;
+    id: string;
+    email: string;
+    rol: string;
+    exp?: number;
+    iat?: number;
+}

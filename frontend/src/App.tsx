@@ -11,9 +11,7 @@ function App() {
       <header className='header-main'>
         <Navbar links={links} />
       </header>
-
       <AppRoutes />
-
       <Footer />
     </>
   )

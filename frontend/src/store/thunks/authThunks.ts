@@ -1,17 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiClient from "../../services/apiClient";
 import { setCredentials } from "../slices/authSlice";
+import { AuthTokenPayload } from "../types";
 
 // thunk con inicio de sesion
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (loginData: { email: string; contraseña: string }, { dispatch }) => {
-        const response = await apiClient.post('/usuario/login', loginData)
+        try {
+            const response = await apiClient.post<AuthTokenPayload>('/usuario/login', loginData)
 
-        const { accessToken, userId, userMail, userRole } = response.data;
+            const { accessToken, id, email, rol } = response.data;
 
-        dispatch(setCredentials({ token: accessToken, userId, userMail, role: userRole }));
-        return response.data;
+            dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
+            return response.data;
+        } catch (error) {
+            console.warn("No se puso iniciar sesión", error);
+            throw error
+        }
     }
 );
 
@@ -20,12 +26,11 @@ export const refreshAccessToken = createAsyncThunk(
     'auth/refreshToken',
     async (_, { dispatch }) => {
         try {
-            const response = await apiClient.post('/usuario/refresh-token');
-            console.log(response);
+            const response = await apiClient.post<AuthTokenPayload>('/usuario/refresh-token')
 
-            const { accessToken, userId, userMail, userRole } = response.data;
+            const { accessToken, id, email, rol } = response.data;
 
-            dispatch(setCredentials({ token: accessToken, userId, userMail, role: userRole }));
+            dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
             return response.data;
         } catch (error) {
             console.warn('No se pudo refrescar el token, redirige a login si querés');

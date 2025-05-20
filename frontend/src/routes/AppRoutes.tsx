@@ -13,6 +13,7 @@ import { TorneoTest } from "../pages/TorneoTest";
 import { Users } from "../pages/Users";
 import { refreshAccessToken } from "../store/thunks/authThunks";
 import UsersDetail from "../pages/Users/UsersDetail";
+import { MainLayout } from "../layouts/MainLayout";
 
 
 export function AppRoutes() {
@@ -24,32 +25,33 @@ export function AppRoutes() {
         console.log(token);
 
         if (!token) {
-            console.log("problemo");
             dispatch(refreshAccessToken()).finally(() => setAuthChecked(true))
         }
-    }, [dispatch])
+    }, [token, dispatch])
 
     if (!authChecked) return <p>Cargando usuario...</p>
 
 
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route element={<MainLayout />}>
+                <Route path='/' element={<Home />} />
+                <Route path="/login" element={<Login />} />
 
-            <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
-                <Route path="/posts" element={<Posts />} />
-                <Route path="/posts/:postId" element={<PostsDetail />} />
-                {/* other protected routes */}
-                <Route path="/users" element={<Users />} />
-                <Route path="/users/:userId" element={<UsersDetail />} />
+                <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
+                    <Route path="/posts" element={<Posts />} />
+                    <Route path="/posts/:postId" element={<PostsDetail />} />
+                    {/* other protected routes */}
+                    <Route path="/users" element={<Users />} />
+                    <Route path="/users/:userId" element={<UsersDetail />} />
+                </Route>
+
+                <Route path="/pokemons" element={<Pokemons />} />
+                <Route path="/pokemons/:pokemonName" element={<PokemonDetail />} />
+                <Route path="/prueba-back" element={<TorneoTest />} />
+
+                <Route path='*' element={<NotFound />} />
             </Route>
-
-            <Route path="/pokemons" element={<Pokemons />} />
-            <Route path="/pokemons/:pokemonName" element={<PokemonDetail />} />
-            <Route path="/prueba-back" element={<TorneoTest />} />
-
-            <Route path='*' element={<NotFound />} />
         </Routes>
     )
 }

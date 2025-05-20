@@ -1,4 +1,3 @@
-"use client";
 import useAxios from '../../hooks/useAxios';
 import './TorneoTest.css';
 

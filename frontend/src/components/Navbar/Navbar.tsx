@@ -1,9 +1,7 @@
-"use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
-import { decodeToken } from '../../utils/decodeToken';
+import { ThemeToggle } from '../ThemeToggle';
 
 interface LinkProp {
 	url: string
@@ -20,8 +18,8 @@ const NavBar = ({ links = [] }: NavbarProps) => {
 
 	const navigate = useNavigate()
 	return (
-		<header className='header-main'>
-			<nav className='nav'>
+		<header className='header-main '>
+			<nav className='nav '>
 				<div className="nav-container">
 					<div className="logo">
 						<img src="/logo_chico.png" alt="logo" onClick={() => navigate("/")} />
@@ -44,11 +42,14 @@ const NavBar = ({ links = [] }: NavbarProps) => {
 									</li>
 							))
 						}
+						<li>
+							<ThemeToggle />
+						</li>
 					</ul>
 				</div>
 
 			</nav>
-		</header>
+		</header >
 	);
 };
 

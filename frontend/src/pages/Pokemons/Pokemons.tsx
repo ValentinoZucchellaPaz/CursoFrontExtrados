@@ -1,4 +1,3 @@
-"use client";
 import { useEffect } from 'react';
 import './Pokemons.css';
 import { fetchPokemons } from '../../store/slices/pokemon/pokemonSlice';
@@ -19,6 +18,7 @@ const Pokemons = ({ }) => {
 
 		if (status == "idle") {
 			dispatch(fetchPokemons())
+			// ver de hacer un fetch de mas datos para al menos tener cosas que mostrar en la imagen
 		}
 	}, [status, dispatch])
 
@@ -27,7 +27,7 @@ const Pokemons = ({ }) => {
 
 	return (
 		<div className='pokemons'>
-			<ul>
+			<ul className='pokmeon-grid'>
 				{pokemons?.results ? pokemons.results.map(pokemon =>
 					<li key={pokemon.url} style={{ cursor: "pointer" }} onClick={() => navigate(`/pokemons/${pokemon.name}`)}>{pokemon.name}</li>
 				) : <p>Loading...</p>}

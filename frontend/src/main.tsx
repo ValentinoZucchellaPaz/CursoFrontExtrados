@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import { store } from './store/store'
 
 const rootElement = document.getElementById('root')
+const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.documentElement.setAttribute("data-theme", userPrefersDark ? "dark" : "light");
+
 ReactDOM.createRoot(rootElement as HTMLElement).render(
   // <StrictMode>
   <BrowserRouter>

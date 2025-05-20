@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom"
-import useAxios from "../../hooks/useAxios"
 import { Pokemon } from "../../store/slices/pokemon/types";
-import { ApiCardType } from "../TorneoTest/TorneoTest";
 import useFetch from "../../hooks/useFetch";
+import { Card } from "../../components/Card";
+import { ApiCardType } from "../TorneoTest/TorneoTest";
+import "./Pokemons.css"
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
@@ -11,6 +12,8 @@ export default function PokemonDetail({ }) {
     // const url = `http://localhost:5125/info/cartas/${pokemonName}` // usando db de backend .net
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}` // usando pokeapi
 
+    // TODO: para la descripcion hay que llamar a otro endpoint https://pokeapi.co/api/v2/pokemon-species/{species_number/name}/
+
     const { data: pokemon, loading, error } = useFetch<Pokemon>(url) // usando useFetch
     // const { data: pokemon, loading, error } = useAxios<ApiCardType>({ url, method: "GET" }) // cambia el tipo que retorna
     // const { data: pokemon, loading, error } = useAxios<Pokemon>({ url, method: "GET" })
@@ -18,26 +21,19 @@ export default function PokemonDetail({ }) {
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>Error: {error}</p>;
+    if (!pokemon) return <p>No pokemon</p>
 
     return (
-        <div>
-            <h4>Id: {pokemon?.id}</h4>
-            {/* <h4>Name: {pokemon?.nombre}</h4> */}
-            <h4>Name: {pokemon?.name}</h4>
-            {/* <h4>Types: </h4>
-            {pokemon?.types && pokemon.types.map(type =>
-                type.type.name
-            ).join(", ")} */}
-            <h4>Stats</h4>
-            <ul>
-                {pokemon?.stats && pokemon.stats.map(stat => (
-                    <li key={stat.stat.name}>{stat.stat.name}: {stat.base_stat}</li>
-                ))}
-                {/* <li>Attack: {pokemon?.ataque}</li>
-                <li>Defense: {pokemon?.defensa}</li> */}
-            </ul>
-            <img src={pokemon?.sprites.front_default} alt={pokemon?.name} />
-            {/* <img src={pokemon?.ilustracion} alt={pokemon?.nombre} /> */}
+        <div className="pokemon-detail-container">
+            <Card
+                title={pokemon.name}
+                image={pokemon.sprites.front_default}
+                footer={`Pokemon ID: ${pokemon.id}`}
+            >
+                {pokemon.stats.map(stat =>
+                    <li key={pokemon.id}>{stat.stat.name}: {stat.base_stat}</li>
+                )}
+            </Card>
         </div>
     )
 }
