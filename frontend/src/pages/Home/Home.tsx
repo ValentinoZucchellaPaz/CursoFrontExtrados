@@ -1,9 +1,16 @@
+import { AboutSection } from '../../components/AboutSection';
+import { ContactSection } from '../../components/ContactSection';
+import { HeroSection } from '../../components/HeroSection';
+import { ProjectsSection } from '../../components/ProjectsSection';
 import './Home.css';
 
 const Home = ({ }) => {
 	return (
 		<div className='home'>
-			Home works!
+			<HeroSection />
+			<ProjectsSection />
+			<AboutSection />
+			<ContactSection />
 		</div>
 	);
 };

@@ -1,12 +1,13 @@
 .login-container {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    min-height: auto;
-    /* min-height: calc(100vh - 4rem); */
-    /* Considerando navbar de 4rem */
-    padding: 4rem;
+    align-items: center;
+    height: 100vh;
     background-color: var(--bg);
+}
+
+.content {
+    padding: 0 !important;
 }
 
 .login-form {
@@ -39,7 +40,7 @@
     margin-top: 0.25rem;
     border: 1px solid var(--primary);
     border-radius: 0.5rem;
-    background-color: var(--input-bg, #111);
+    background-color: var(--input-bg);
     color: var(--text);
     font-size: 1rem;
 }
@@ -64,6 +65,18 @@
 
 .login-form button:hover {
     background-color: var(--primary-light);
+}
+
+.login-form .login-footer {
+    & a {
+        color: var(--primary);
+
+    }
+
+    & a:hover {
+        color: var(--primary-light);
+        text-decoration: underline;
+    }
 }
 
 .error-message {

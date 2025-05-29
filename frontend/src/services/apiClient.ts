@@ -51,7 +51,7 @@ apiClient.interceptors.response.use(
             } catch (refreshError) {
                 console.log('error en reenvio de refresh');
 
-                store.dispatch(logout());
+                store.dispatch(logout()); // preguntar si esta bien esta linea
                 return Promise.reject(refreshError);
             }
         }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../store/thunks/authThunks';
 import './LoginForm.css'
 import { AxiosError } from 'axios';
@@ -11,13 +11,24 @@ export default function Login() {
 	const navigate = useNavigate()
 	const [email, setEmail] = useState('');
 	const [contraseña, setContraseña] = useState('');
-	const [error, setError] = useState('');
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false)
 	const dispatch = useAppDispatch()
+
+
+	const validateEmail = (email: string) => {
+		const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+		return pattern.test(email)
+	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError('');
+		setLoading(true)
 
+		if (!validateEmail(email)) {
+			setError("Formato email incorrecto\nej. usuario_1@gmail.com")
+		}
 
 		try {
 			await dispatch(loginUser({
@@ -33,8 +44,12 @@ export default function Login() {
 			console.log(err);
 
 			setError(err?.message);
+		} finally {
+			setLoading(false)
 		}
 	};
+
+
 
 	return (
 		<div className='login-container'>
@@ -58,7 +73,10 @@ export default function Login() {
 					/>
 				</label>
 				{error && <p className='error-message'>{error}</p>}
-				<button type="submit">Entrar</button>
+
+				<button type="submit" disabled={loading}>{loading ? "..." : "Entrar"}</button>
+
+				<p className='login-footer'>¿No tienes una cuenta? <Link to="/sign-up">Crea una</Link></p>
 			</form>
 		</div>
 	);

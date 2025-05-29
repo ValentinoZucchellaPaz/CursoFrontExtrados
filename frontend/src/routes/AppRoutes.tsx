@@ -22,7 +22,7 @@ export function AppRoutes() {
     const [authChecked, setAuthChecked] = useState(false)
 
     useEffect(() => {
-        console.log(token);
+        // console.log(token);
 
         if (!token) {
             dispatch(refreshAccessToken()).finally(() => setAuthChecked(true))
@@ -34,24 +34,24 @@ export function AppRoutes() {
 
     return (
         <Routes>
-            <Route element={<MainLayout />}>
-                <Route path='/' element={<Home />} />
-                <Route path="/login" element={<Login />} />
+            {/* <Route element={<MainLayout />}> */}
+            <Route path='/' element={<Home />} />
+            <Route path="/login" element={<Login />} />
 
-                <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
-                    <Route path="/posts" element={<Posts />} />
-                    <Route path="/posts/:postId" element={<PostsDetail />} />
-                    {/* other protected routes */}
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/users/:userId" element={<UsersDetail />} />
-                </Route>
-
-                <Route path="/pokemons" element={<Pokemons />} />
-                <Route path="/pokemons/:pokemonName" element={<PokemonDetail />} />
-                <Route path="/prueba-back" element={<TorneoTest />} />
-
-                <Route path='*' element={<NotFound />} />
+            <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
+                <Route path="/posts" element={<Posts />} />
+                <Route path="/posts/:postId" element={<PostsDetail />} />
+                {/* other protected routes */}
+                <Route path="/users" element={<Users />} />
+                <Route path="/users/:userId" element={<UsersDetail />} />
             </Route>
+
+            <Route path="/pokemons" element={<Pokemons />} />
+            <Route path="/pokemons/:pokemonName" element={<PokemonDetail />} />
+            <Route path="/prueba-back" element={<TorneoTest />} />
+
+            <Route path='*' element={<NotFound />} />
+            {/* </Route> */}
         </Routes>
     )
 }
