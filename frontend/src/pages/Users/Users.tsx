@@ -3,8 +3,7 @@ import './Users.css';
 import { APIUserProps } from '../../store/types';
 import { getUsers } from '../../services/userService';
 import UserTable from '../../components/UsersTable/UsersTable';
-import { Input } from '@mui/joy';
-import { MdSearch } from 'react-icons/md';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 
 
 const Users = () => {
@@ -12,21 +11,12 @@ const Users = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState('')
 	const [searchTerm, setSearchTerm] = useState('')
-	const [debounceSearch, setDebouncedSearch] = useState('')
 
-	// debounce de barra de busqueda
-	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setDebouncedSearch(searchTerm);
-		}, 400); // 400ms de retardo
-
-		return () => clearTimeout(timeoutId); // Limpia si escribe otra letra rápido
-	}, [searchTerm]);
 
 	const filteredUsers = useMemo(() =>
 		users && users.filter(user =>
-			user.name.toLowerCase().includes(debounceSearch.toLowerCase())
-		), [users, debounceSearch]);
+			user.name.toLowerCase().includes(searchTerm.toLowerCase())
+		), [users, searchTerm]);
 
 
 	useEffect(() => {
@@ -43,12 +33,10 @@ const Users = () => {
 	if (error) return <p>{error}</p>
 	return (
 		<div className='users'>
-			<Input
-				placeholder="Buscar usuario..."
+			<SearchBar
 				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
-				startDecorator={<MdSearch />}
-				sx={{ mb: 2, backgroundColor: 'var(--surface)', color: 'var(--text)' }}
+				onChange={setSearchTerm}
+				placeholder='Buscar usuario por nombre'
 			/>
 
 			{filteredUsers && <UserTable users={filteredUsers} />}

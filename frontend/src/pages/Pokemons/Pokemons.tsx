@@ -1,15 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './Pokemons.css';
 import { fetchPokemons } from '../../store/slices/pokemonSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Card } from '../../components/Card';
+import { PokemonsGrid } from '../../components/PokemonsGrid';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 
 const Pokemons = ({ }) => {
 
-	const navigate = useNavigate()
+	const [searchTerm, setSearchTerm] = useState('')
 	const { items: pokemons, status, error } = useAppSelector((state) => state.pokemons)
 	const dispatch = useAppDispatch()
+
+	const filteredPokemons = useMemo(() =>
+		pokemons && pokemons.filter(pokemon =>
+			pokemon.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+		), [pokemons, searchTerm]);
 
 	useEffect(() => {
 		console.log("use effect de posts");
@@ -19,7 +25,6 @@ const Pokemons = ({ }) => {
 
 		if (status == "idle") {
 			dispatch(fetchPokemons())
-			// ver de hacer un fetch de mas datos para al menos tener cosas que mostrar en la imagen
 		}
 	}, [status, dispatch])
 
@@ -29,9 +34,12 @@ const Pokemons = ({ }) => {
 
 	return (
 		<div className='pokemons'>
-			<ul className='pokemon-grid'>
-				{pokemons?.map(pokemon => <Card title={pokemon.nombre} footer={"Pokemon ID: " + pokemon.id} image={pokemon.ilustracion} onClick={() => navigate(`/pokemons/${pokemon.nombre}`)} />)}
-			</ul>
+			<SearchBar
+				value={searchTerm}
+				onChange={setSearchTerm}
+				placeholder='Buscar pokemon por nombre'
+			/>
+			{filteredPokemons && <PokemonsGrid pokemons={filteredPokemons} />}
 		</div>
 	);
 };

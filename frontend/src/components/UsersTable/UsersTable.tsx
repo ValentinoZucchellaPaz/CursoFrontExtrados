@@ -12,11 +12,10 @@ export default function UserTable({ users }: { users: APIUserProps[] }) {
 	const navigate = useNavigate();
 
 	return (
-		<Sheet variant="outlined" sx={{ borderRadius: 'md', p: 2, backgroundColor: 'var(--surface)', color: 'var(--text)' }}>
+		<Sheet variant="outlined" sx={{ borderRadius: 'md', p: 2, backgroundColor: 'var(--surface)', color: 'var(--text)', overflowX: 'auto' }}>
 			<Typography level="h4" mb={2} sx={{ color: 'var(--text)' }}>
 				Lista de Usuarios
 			</Typography>
-
 			<Table
 				variant="plain"
 				borderAxis="xBetween"
@@ -33,21 +32,21 @@ export default function UserTable({ users }: { users: APIUserProps[] }) {
 			>
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>Alias</th>
+						<th style={{ width: '60px', whiteSpace: 'nowrap' }}>ID</th>
+						<th className='hide-mobile'>Alias</th>
 						<th>Nombre</th>
 						<th>Rol</th>
-						<th>Acciones</th>
+						<th className='hide-mobile'>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 					{users.map((u) => (
 						<tr key={u.id} onClick={() => navigate(`/users/${u.id}`)}>
 							<td>{u.id}</td>
-							<td>{u.alias ? u.alias : '-'}</td>
+							<td className='hide-mobile'>{u.alias ? u.alias : '-'}</td>
 							<td>{u.name}</td>
 							<td>{u.role}</td>
-							<td>
+							<td className='hide-mobile'>
 								<Box sx={{ display: 'flex', gap: 1 }}>
 									<IconButton
 										variant="soft"

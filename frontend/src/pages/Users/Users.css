@@ -30,3 +30,14 @@
         width: 100%;
     }
 }
+
+
+@media (max-width:600px) {
+    .users {
+        margin: 2rem 20px;
+    }
+
+    .hide-mobile {
+        display: none;
+    }
+}
