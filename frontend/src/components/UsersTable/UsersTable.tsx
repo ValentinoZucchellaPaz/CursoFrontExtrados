@@ -52,6 +52,7 @@ export default function UserTable({ users }: { users: APIUserProps[] }) {
 									<IconButton
 										variant="soft"
 										color="neutral"
+										disabled={u.role === 'admin'}
 										onClick={(e) => {
 											e.stopPropagation()
 											navigate(`/usuarios/${u.id}/editar`)
@@ -62,6 +63,7 @@ export default function UserTable({ users }: { users: APIUserProps[] }) {
 									<IconButton
 										variant="soft"
 										color="danger"
+										disabled={u.role === 'admin'}
 										onClick={(e) => {
 											e.stopPropagation()
 											navigate(`/usuarios/${u.id}/eliminar`)

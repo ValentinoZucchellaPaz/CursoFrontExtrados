@@ -4,8 +4,8 @@ import { AuthState } from '../types';
 const initialState: AuthState = {
     token: null,
     userId: null,
-    userMail: null,
-    role: null,
+    userEmail: null,
+    userRole: null,
 };
 
 const authSlice = createSlice({
@@ -14,15 +14,15 @@ const authSlice = createSlice({
     reducers: {
         setCredentials(state, action: PayloadAction<AuthState>) {
             state.token = action.payload.token;
-            state.role = action.payload.role;
+            state.userRole = action.payload.userRole;
             state.userId = action.payload.userId
-            state.userMail = action.payload.userMail
+            state.userEmail = action.payload.userEmail
         },
         logout(state) {
             state.token = null;
-            state.role = null;
+            state.userRole = null;
             state.userId = null;
-            state.userMail = null;
+            state.userEmail = null;
         }
     }
 });

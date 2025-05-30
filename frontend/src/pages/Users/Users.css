@@ -9,7 +9,7 @@
         padding: 5rem;
     }
 
-    button {
+    .back-arrow {
         background-color: transparent;
         border: 1px solid var(--primary);
         position: absolute;

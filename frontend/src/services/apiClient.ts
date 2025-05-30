@@ -39,10 +39,12 @@ apiClient.interceptors.response.use(
                     withCredentials: true, // important for cookie
                 });
 
-                const { accessToken, email, id, rol } = refreshResponse.data;
+                console.log(refreshResponse.data);
+
+                const { accessToken, userEmail, userId, userRole } = refreshResponse.data;
                 // const { accessToken, userId, userEmail, userRole } = refreshResponse.data;
 
-                store.dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
+                store.dispatch(setCredentials({ token: accessToken, userId, userEmail, userRole }));
 
                 originalRequest.headers = {
                     ...originalRequest.headers,

@@ -3,8 +3,8 @@
 export interface AuthState {
     token: string | null;
     userId: string | null;
-    userMail: string | null;
-    role: string | null;
+    userEmail: string | null;
+    userRole: string | null;
 }
 
 export interface APILoginProps { email: string; contraseña: string }
@@ -47,9 +47,9 @@ export interface APIUserProps {
 
 export interface AuthTokenPayload {
     accessToken: string;
-    id: string;
-    email: string;
-    rol: string;
+    userId: string;
+    userEmail: string;
+    userRole: string;
     exp?: number;
     iat?: number;
 }

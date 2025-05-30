@@ -10,9 +10,9 @@ export const loginUserThunk = createAsyncThunk(
         try {
             const response = await loginUser(loginData)
 
-            const { accessToken, id, email, rol } = response.data;
+            const { accessToken, userEmail, userId, userRole } = response.data;
 
-            dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
+            dispatch(setCredentials({ token: accessToken, userId, userEmail, userRole }));
             return response.data;
         } catch (error) {
             console.warn("No se puso iniciar sesión", error);
@@ -28,9 +28,9 @@ export const refreshAccessTokenThunk = createAsyncThunk(
         try {
             const response = await refreshAccessToken()
 
-            const { accessToken, id, email, rol } = response.data;
+            const { accessToken, userEmail, userId, userRole } = response.data;
 
-            dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
+            dispatch(setCredentials({ token: accessToken, userId, userEmail, userRole }));
             return response.data;
         } catch (error) {
             console.warn('No se pudo refrescar el token, redirige a login si querés');
