@@ -33,7 +33,7 @@ export default function PokemonDetail({ }) {
 
     return (
         <div className="pokemon-detail-container">
-            <button onClick={() => navigate(-1)}><MdArrowBack /></button>
+            <button onClick={() => navigate(-1)}><MdArrowBack color='var(--primary)' /></button>
             <Card
                 title={pokemon.nombre}
                 image={pokemon.ilustracion}

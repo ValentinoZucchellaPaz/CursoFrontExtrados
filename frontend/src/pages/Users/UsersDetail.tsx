@@ -15,6 +15,12 @@ const UsersDetail = ({ }) => {
     const navigate = useNavigate()
     const { userId } = useParams()
 
+    // scroll to top cuando renderize
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
+
+
     useEffect(() => {
         if (userId) {
             setLoading(true)
@@ -26,14 +32,11 @@ const UsersDetail = ({ }) => {
         }
     }, [])
 
-    // const { data: user, loading, error } = useAxios<APIUserProps>({ url: `http://localhost:5125/info/usuarios/${userId}` })
-    console.log(user);
-
     if (loading) return <p>Cargando...</p>
     if (error) return <p>{error}</p>
     return (
         <div className='user-detail-container'>
-            <button onClick={() => navigate(-1)}><MdArrowBack /></button>
+            <button onClick={() => navigate(-1)}><MdArrowBack color='var(--primary)' /></button>
             {user ?
                 <Card
                     title={user.alias ? `Alias: ${user.alias}` : `Nombre: ${user.name}`}

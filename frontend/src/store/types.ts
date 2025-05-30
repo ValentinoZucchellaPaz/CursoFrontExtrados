@@ -36,7 +36,7 @@ export interface APIUserProps {
     // alias: string
     // avatar: string
     id: number,
-    name?: string,
+    name: string,
     pais: string,
     email?: string,
     role: "admin" | "juez" | "org" | "jugador",

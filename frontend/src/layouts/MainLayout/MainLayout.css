@@ -2,7 +2,7 @@
 :root {
     --primary: #8e44ad;
     --primary-light: #a678c9;
-    --primary-dark: #5e3370;
+    --primary-dark: #934ab3;
     --bg: #f5f5f5;
     --text: #222;
     --navbar-bg: #eaeaea;
@@ -46,6 +46,7 @@ body {
     font-family: sans-serif;
     background-color: var(--bg);
     color: var(--text);
+    font-family: 'Inter', sans-serif;
 }
 
 .mainLayout {
