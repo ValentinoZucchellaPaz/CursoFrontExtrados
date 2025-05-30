@@ -1,38 +1,32 @@
 import { useParams } from "react-router-dom"
-import { Pokemon } from "../../store/slices/pokemon/types";
-import useFetch from "../../hooks/useFetch";
 import { Card } from "../../components/Card";
-import { ApiCardType } from "../TorneoTest/TorneoTest";
 import "./Pokemons.css"
+import { useAppSelector } from "../../store/hooks";
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
 
+    // agregar un scroll to top
 
-    // const url = `http://localhost:5125/info/cartas/${pokemonName}` // usando db de backend .net
-    const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}` // usando pokeapi
+    const pokemonsState = useAppSelector((store) => store.pokemons)
+    if (pokemonsState.status === 'loading'
+        || pokemonsState.status === 'idle'
+    ) return <p>Cargando...</p>;
 
-    // TODO: para la descripcion hay que llamar a otro endpoint https://pokeapi.co/api/v2/pokemon-species/{species_number/name}/
+    if (pokemonsState.status === 'failed' && pokemonsState.error) return <p>Error: {pokemonsState.error}</p>
 
-    const { data: pokemon, loading, error } = useFetch<Pokemon>(url) // usando useFetch
-    // const { data: pokemon, loading, error } = useAxios<ApiCardType>({ url, method: "GET" }) // cambia el tipo que retorna
-    // const { data: pokemon, loading, error } = useAxios<Pokemon>({ url, method: "GET" })
-    console.log(pokemon);
-
-    if (loading) return <p>Cargando...</p>;
-    if (error) return <p>Error: {error}</p>;
-    if (!pokemon) return <p>No pokemon</p>
+    const pokemon = pokemonsState.items?.find(pok => pok.nombre === pokemonName)
+    if (pokemon === undefined) return <p>No se ha encontrado el pokemon {pokemonName}</p>
 
     return (
         <div className="pokemon-detail-container">
             <Card
-                title={pokemon.name}
-                image={pokemon.sprites.front_default}
+                title={pokemon.nombre}
+                image={pokemon.ilustracion}
                 footer={`Pokemon ID: ${pokemon.id}`}
             >
-                {pokemon.stats.map(stat =>
-                    <li key={pokemon.id}>{stat.stat.name}: {stat.base_stat}</li>
-                )}
+                <li>Defensa: {pokemon.defensa}</li>
+                <li>Ataque: {pokemon.ataque}</li>
             </Card>
         </div>
     )

@@ -1,24 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
-import { AllPokemons, Pokemon } from './types';
-import { request } from '../../../services/request';
+import { APICard } from '../../types';
+import apiClient from '../../../services/apiClient';
+import { Pokemon } from './types';
 
-const url = 'https://pokeapi.co/api/v2/pokemon?limit=151'
-// const url = `http://localhost:5125/info/cartas/${pokemonName}`
+// const url = 'https://pokeapi.co/api/v2/pokemon?limit=151'
+const url = 'http://localhost:5125/info/cartas'
 
 // Thunk para obtener los posts
-export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
-    // version con axios solo y llamado a api backend .net
-    // export const fetchPokemons = createAsyncThunk<AllPokemons>('posts/fetchPokemons', async () => {
-    const response = await axios.get<AllPokemons>('https://pokeapi.co/api/v2/pokemon?limit=151');
+export const fetchPokemons = createAsyncThunk<APICard[]>('posts/fetchPokemons', async () => {
+    const response = await apiClient.get<APICard[]>(url);
     return response.data;
-    // const response = await request<AllPokemons>({ url, method: "GET" });
-    // return response;
 });
 
 interface PokemonState {
-    // items: Pokemon[] | null,
-    items: AllPokemons | null,
+    items: APICard[] | null,
     status: 'idle' | 'loading' | 'succeeded' | 'failed',
     error: string | null
 }

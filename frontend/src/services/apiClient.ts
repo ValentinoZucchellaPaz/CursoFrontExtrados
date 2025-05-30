@@ -5,6 +5,7 @@ import { RefreshTokenResponse } from '../store/types';
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:5125', // o poner solo parte común si usás más de un dominio
+    timeout: 30000,
     headers: {
         'Content-Type': 'application/json',
     },

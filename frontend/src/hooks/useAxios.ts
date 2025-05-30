@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import apiClient from '../services/apiClient';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { request } from '../services/request';
 

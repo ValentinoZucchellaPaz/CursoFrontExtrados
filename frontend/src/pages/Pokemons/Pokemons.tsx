@@ -3,6 +3,7 @@ import './Pokemons.css';
 import { fetchPokemons } from '../../store/slices/pokemon/pokemonSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { Card } from '../../components/Card';
 
 const Pokemons = ({ }) => {
 
@@ -24,13 +25,12 @@ const Pokemons = ({ }) => {
 
 	if (status === 'loading') return <p>Cargando...</p>;
 	if (status === 'failed') return <p>Error: {error}</p>;
+	if (status === 'succeeded' && pokemons?.length === 0) return <p>Ha ocurrido un error al obtener los pokemon</p>
 
 	return (
 		<div className='pokemons'>
-			<ul className='pokmeon-grid'>
-				{pokemons?.results ? pokemons.results.map(pokemon =>
-					<li key={pokemon.url} style={{ cursor: "pointer" }} onClick={() => navigate(`/pokemons/${pokemon.name}`)}>{pokemon.name}</li>
-				) : <p>Loading...</p>}
+			<ul className='pokemon-grid'>
+				{pokemons?.map(pokemon => <Card title={pokemon.nombre} footer={"Pokemon ID: " + pokemon.id} image={pokemon.ilustracion} onClick={() => navigate(`/pokemons/${pokemon.nombre}`)} />)}
 			</ul>
 		</div>
 	);

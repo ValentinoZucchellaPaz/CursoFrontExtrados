@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import pokemonReducer from './slices/pokemon/pokemonSlice'
-import postsReducer from './slices/postSlice'
 import authReducer from "./slices/authSlice"
 
 export const store = configureStore({
     reducer: {
         pokemons: pokemonReducer,
-        posts: postsReducer,
         auth: authReducer
     },
 })

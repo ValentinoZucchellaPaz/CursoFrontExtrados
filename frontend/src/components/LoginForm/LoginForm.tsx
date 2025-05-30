@@ -9,8 +9,8 @@ import { AxiosError } from 'axios';
 
 export default function Login() {
 	const navigate = useNavigate()
-	const [email, setEmail] = useState('');
-	const [contraseña, setContraseña] = useState('');
+	// const [email, setEmail] = useState('');
+	// const [contraseña, setContraseña] = useState('');
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false)
 	const dispatch = useAppDispatch()
@@ -26,13 +26,13 @@ export default function Login() {
 		setError('');
 		setLoading(true)
 
-		if (!validateEmail(email)) {
-			setError("Formato email incorrecto\nej. usuario_1@gmail.com")
-		}
+		// if (!validateEmail(email)) {
+		// 	setError("Formato email incorrecto\nej. usuario_1@gmail.com")
+		// }
 
 		try {
 			await dispatch(loginUser({
-				email, contraseña
+				email: "admin1@example.com", contraseña: "123456"
 			})).unwrap()
 
 			// toast indicando inicio de sesion exitoso
@@ -55,7 +55,7 @@ export default function Login() {
 		<div className='login-container'>
 			<form onSubmit={handleSubmit} className='login-form'>
 				<h2>Login</h2>
-				<label>Email:
+				{/* <label>Email:
 					<input
 						type='email'
 						value={email}
@@ -71,12 +71,12 @@ export default function Login() {
 						onChange={e => setContraseña(e.target.value)}
 						required
 					/>
-				</label>
+				</label> */}
 				{error && <p className='error-message'>{error}</p>}
 
 				<button type="submit" disabled={loading}>{loading ? "..." : "Entrar"}</button>
 
-				<p className='login-footer'>¿No tienes una cuenta? <Link to="/sign-up">Crea una</Link></p>
+				{/* <p className='login-footer'>¿No tienes una cuenta? <Link to="/sign-up">Crea una</Link></p> */}
 			</form>
 		</div>
 	);

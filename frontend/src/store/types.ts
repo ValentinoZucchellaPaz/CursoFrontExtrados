@@ -12,19 +12,6 @@ export interface RefreshTokenResponse {
     userRole: string
 }
 
-export interface Post {
-    userId: string,
-    id: number,
-    title: string,
-    body: string
-}
-
-export interface PostState {
-    items: Post[],
-    status: 'idle' | 'loading' | 'succeeded' | 'failed',
-    error: string | null
-}
-
 export interface APILoginResponse {
     accessToken: string
     userId: number
@@ -50,4 +37,12 @@ export interface AuthTokenPayload {
     rol: string;
     exp?: number;
     iat?: number;
+}
+
+export interface APICard {
+    id: number,
+    nombre: string,
+    ilustracion: string,
+    ataque: number,
+    defensa: number
 }
