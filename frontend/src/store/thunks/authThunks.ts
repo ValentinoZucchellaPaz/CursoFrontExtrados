@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import apiClient from "../../services/apiClient";
-import { setCredentials } from "../slices/authSlice";
-import { AuthTokenPayload } from "../types";
+import { logout, setCredentials } from "../slices/authSlice";
+import { APILoginProps } from "../types";
+import { loginUser, logoutUser, refreshAccessToken } from "../../services/userService";
 
 // thunk con inicio de sesion
-export const loginUser = createAsyncThunk(
+export const loginUserThunk = createAsyncThunk(
     'auth/loginUser',
-    async (loginData: { email: string; contraseña: string }, { dispatch }) => {
+    async (loginData: APILoginProps, { dispatch }) => {
         try {
-            const response = await apiClient.post<AuthTokenPayload>('/usuario/login', loginData)
+            const response = await loginUser(loginData)
 
             const { accessToken, id, email, rol } = response.data;
 
@@ -22,11 +22,11 @@ export const loginUser = createAsyncThunk(
 );
 
 // thunk para renovar access token
-export const refreshAccessToken = createAsyncThunk(
+export const refreshAccessTokenThunk = createAsyncThunk(
     'auth/refreshToken',
     async (_, { dispatch }) => {
         try {
-            const response = await apiClient.post<AuthTokenPayload>('/usuario/refresh-token')
+            const response = await refreshAccessToken()
 
             const { accessToken, id, email, rol } = response.data;
 
@@ -38,4 +38,18 @@ export const refreshAccessToken = createAsyncThunk(
         }
     }
 );
+
+// thunk para logout
+export const logoutUserThunk = createAsyncThunk(
+    'auth/logoutUser',
+    async (_, { dispatch }) => {
+        try {
+            await logoutUser()
+            dispatch(logout())
+        } catch (error) {
+            console.warn('No se pudo hacer el logout, intente más tarde');
+            throw error;
+        }
+    }
+)
 

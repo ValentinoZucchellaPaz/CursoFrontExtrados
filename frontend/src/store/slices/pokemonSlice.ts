@@ -1,22 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { APICard } from '../../types';
-import apiClient from '../../../services/apiClient';
-import { Pokemon } from './types';
+import { APICard, PokemonState } from '../types';
+import apiClient from '../../services/apiClient';
 
-// const url = 'https://pokeapi.co/api/v2/pokemon?limit=151'
 const url = 'http://localhost:5125/info/cartas'
-
-// Thunk para obtener los posts
 export const fetchPokemons = createAsyncThunk<APICard[]>('posts/fetchPokemons', async () => {
     const response = await apiClient.get<APICard[]>(url);
     return response.data;
 });
-
-interface PokemonState {
-    items: APICard[] | null,
-    status: 'idle' | 'loading' | 'succeeded' | 'failed',
-    error: string | null
-}
 
 const initialState: PokemonState = {
     items: null,

@@ -1,11 +1,11 @@
 import axios, { InternalAxiosRequestConfig, AxiosError, AxiosRequestConfig } from 'axios';
 import { store } from '../store/store';
 import { logout, setCredentials } from '../store/slices/authSlice';
-import { RefreshTokenResponse } from '../store/types';
+import { AuthTokenPayload } from '../store/types';
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:5125', // o poner solo parte común si usás más de un dominio
-    timeout: 30000,
+    timeout: 10000, // timeout de 10s
     headers: {
         'Content-Type': 'application/json',
     },
@@ -35,13 +35,14 @@ apiClient.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const refreshResponse = await axios.post<RefreshTokenResponse>('/refresh-token', {
+                const refreshResponse = await axios.post<AuthTokenPayload>('/refresh-token', {
                     withCredentials: true, // important for cookie
                 });
 
-                const { accessToken, userId, userEmail, userRole } = refreshResponse.data;
+                const { accessToken, email, id, rol } = refreshResponse.data;
+                // const { accessToken, userId, userEmail, userRole } = refreshResponse.data;
 
-                store.dispatch(setCredentials({ token: accessToken, userId: userId.toLocaleString(), userMail: userEmail, role: userRole }));
+                store.dispatch(setCredentials({ token: accessToken, userId: id, userMail: email, role: rol }));
 
                 originalRequest.headers = {
                     ...originalRequest.headers,

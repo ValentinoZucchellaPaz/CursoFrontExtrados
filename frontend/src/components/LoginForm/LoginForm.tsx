@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../store/thunks/authThunks';
+import { loginUserThunk } from '../../store/thunks/authThunks';
 import './LoginForm.css'
 import { AxiosError } from 'axios';
 
@@ -31,7 +31,7 @@ export default function Login() {
 		// }
 
 		try {
-			await dispatch(loginUser({
+			await dispatch(loginUserThunk({
 				email: "admin1@example.com", contraseña: "123456"
 			})).unwrap()
 

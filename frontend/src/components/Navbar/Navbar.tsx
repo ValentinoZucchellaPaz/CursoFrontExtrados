@@ -45,6 +45,7 @@ const NavBar = ({ links = [] }: NavbarProps) => {
 						<li>
 							<ThemeToggle />
 						</li>
+						{/* agregar info usuario */}
 					</ul>
 				</div>
 

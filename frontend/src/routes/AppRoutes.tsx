@@ -8,7 +8,7 @@ import { Pokemons } from "../pages/Pokemons";
 import PokemonDetail from "../pages/Pokemons/PokemonDetail";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Users } from "../pages/Users";
-import { refreshAccessToken } from "../store/thunks/authThunks";
+import { refreshAccessTokenThunk } from "../store/thunks/authThunks";
 import UsersDetail from "../pages/Users/UsersDetail";
 
 
@@ -19,9 +19,8 @@ export function AppRoutes() {
 
     useEffect(() => {
         if (!token) {
-            dispatch(refreshAccessToken()).finally(() => setAuthChecked(true))
+            dispatch(refreshAccessTokenThunk()).finally(() => setAuthChecked(true))
         }
-        // setAuthChecked(true)
     }, [token, dispatch])
 
     if (!authChecked) return <p>Cargando usuario...</p>

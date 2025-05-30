@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './Pokemons.css';
-import { fetchPokemons } from '../../store/slices/pokemon/pokemonSlice';
+import { fetchPokemons } from '../../store/slices/pokemonSlice';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Card } from '../../components/Card';

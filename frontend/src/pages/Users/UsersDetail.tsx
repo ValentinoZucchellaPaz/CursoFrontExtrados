@@ -3,17 +3,33 @@ import useAxios from '../../hooks/useAxios';
 import { APIUserProps } from '../../store/types';
 import { useParams } from 'react-router-dom';
 import { Card } from '../../components/Card';
+import { useEffect, useState } from 'react';
+import { getUser } from '../../services/userService';
 
 
 const UsersDetail = ({ }) => {
+    const [user, setUser] = useState<APIUserProps | null>(null) // además hacer estado global con usuario en cuestión
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
 
     const { userId } = useParams()
 
-    const { data: user, loading, error } = useAxios<APIUserProps>({ url: `http://localhost:5125/info/usuarios/${userId}` })
+    useEffect(() => {
+        if (userId) {
+            setLoading(true)
+            getUser(userId)
+                .then(res => res.data)
+                .then(data => setUser(data))
+                .catch(e => setError(e.message))
+                .finally(() => setLoading(false))
+        }
+    }, [])
+
+    // const { data: user, loading, error } = useAxios<APIUserProps>({ url: `http://localhost:5125/info/usuarios/${userId}` })
     console.log(user);
 
     if (loading) return <p>Cargando...</p>
-    if (error) return <p>{error.message}</p>
+    if (error) return <p>{error}</p>
     return (
         <div className='user-detail-container'>
             {user ?

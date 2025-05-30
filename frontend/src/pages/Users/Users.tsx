@@ -1,28 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Users.css';
 import useAxios from '../../hooks/useAxios';
 import { APIUserProps } from '../../store/types';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/Card';
-import { deleteUser } from '../../services/userService';
-
-export type UsersProps = {
-	// types...
-}
+import { deleteUser, getUsers } from '../../services/userService';
 
 
-const Users: React.FC<UsersProps> = ({ }) => {
+const Users = () => {
 	const navigate = useNavigate()
+	const [users, setUsers] = useState<APIUserProps[] | null>(null) // además hacer estado global con usuario en cuestión
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState('')
 
-	const { data: usuarios, loading, error } = useAxios<APIUserProps[]>({ url: "http://localhost:5125/info/usuarios/all" }) // cambiar a hook personalizado para llamar a usuarios useUsers
-	// meto en useeffect para que cuando borre usuario llame de nuevo?
-	console.log(usuarios);
+	useEffect(() => {
+		setLoading(true)
+		getUsers()
+			.then(res => res.data)
+			.then(data => setUsers(data))
+			.catch(e => setError(e.message))
+			.finally(() => setLoading(false))
+
+	}, [])
 
 	if (loading) return <p>Cargando...</p>
-	if (error) return <p>{error.message}</p>
+	if (error) return <p>{error}</p>
 	return (
 		<div className='users'>
-			{usuarios && usuarios.map(user => <Card onClick={() => navigate(`/users/${user.id}`)} key={user.id} title={`id:${user.id} ${user.alias ? 'alias: ' + user.alias : 'nombre: ' + user.name}`} footer={user.role}>
+			{users && users.map(user => <Card onClick={() => navigate(`/users/${user.id}`)} key={user.id} title={`id:${user.id} ${user.alias ? 'alias: ' + user.alias : 'nombre: ' + user.name}`} footer={user.role}>
 				<button onClick={(e) => {
 					e.stopPropagation()
 					deleteUser(user.id.toString())
