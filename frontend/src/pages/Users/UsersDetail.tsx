@@ -1,10 +1,10 @@
 import './Users.css';
-import useAxios from '../../hooks/useAxios';
 import { APIUserProps } from '../../store/types';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { useEffect, useState } from 'react';
 import { getUser } from '../../services/userService';
+import { MdArrowBack } from 'react-icons/md';
 
 
 const UsersDetail = ({ }) => {
@@ -12,6 +12,7 @@ const UsersDetail = ({ }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    const navigate = useNavigate()
     const { userId } = useParams()
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const UsersDetail = ({ }) => {
     if (error) return <p>{error}</p>
     return (
         <div className='user-detail-container'>
+            <button onClick={() => navigate(-1)}><MdArrowBack /></button>
             {user ?
                 <Card
                     title={user.alias ? `Alias: ${user.alias}` : `Nombre: ${user.name}`}

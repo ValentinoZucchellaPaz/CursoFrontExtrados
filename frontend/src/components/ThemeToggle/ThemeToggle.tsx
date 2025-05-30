@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { MdNightlight, MdSunny } from 'react-icons/md'
 import "./ThemeToggle.css";
 
 export default function ThemeToggle() {
@@ -22,7 +23,7 @@ export default function ThemeToggle() {
 
 	return (
 		<button className="theme-toggle" onClick={toggleTheme}>
-			{theme === "light" ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
+			{theme === "light" ? <MdNightlight /> : <MdSunny />}
 		</button>
 	);
 }

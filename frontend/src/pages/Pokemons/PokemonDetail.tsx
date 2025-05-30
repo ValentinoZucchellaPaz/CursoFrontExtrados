@@ -1,15 +1,28 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Card } from "../../components/Card";
 import "./Pokemons.css"
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useEffect } from "react";
+import { fetchPokemons } from "../../store/slices/pokemonSlice";
+import { MdArrowBack } from "react-icons/md";
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
-
-    // agregar un scroll to top
-    // agregar estado propio al pokemon, de manera que se llama a store en use effect, se debe evitar que cuando recargue página en detail se pierde pokemons y no se llama de nuevo a api
-
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const pokemonsState = useAppSelector((store) => store.pokemons)
+
+    // scroll to top cuando renderize
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
+
+    useEffect(() => {
+        if (pokemonsState.status === 'idle') {
+            dispatch(fetchPokemons())
+        }
+    }, [pokemonsState])
+
     if (pokemonsState.status === 'loading'
     ) return <p>Cargando...</p>;
 
@@ -20,6 +33,7 @@ export default function PokemonDetail({ }) {
 
     return (
         <div className="pokemon-detail-container">
+            <button onClick={() => navigate(-1)}><MdArrowBack /></button>
             <Card
                 title={pokemon.nombre}
                 image={pokemon.ilustracion}
