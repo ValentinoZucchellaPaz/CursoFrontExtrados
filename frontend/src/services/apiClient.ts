@@ -35,7 +35,7 @@ apiClient.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const refreshResponse = await axios.post<AuthTokenPayload>('/refresh-token', {
+                const refreshResponse = await axios.post<AuthTokenPayload>('/usuario/refresh-token', {
                     withCredentials: true, // important for cookie
                 });
 

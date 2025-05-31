@@ -10,11 +10,12 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Users } from "../pages/Users";
 import { refreshAccessTokenThunk } from "../store/thunks/authThunks";
 import UsersDetail from "../pages/Users/UsersDetail";
+import CreateUser from "../pages/CreateUser/CreateUser";
 
 
 export function AppRoutes() {
     const dispatch = useAppDispatch()
-    const { token } = useAppSelector(state => state.auth)
+    const { token, userRole } = useAppSelector(state => state.auth)
     const [authChecked, setAuthChecked] = useState(false)
 
     useEffect(() => {
@@ -34,6 +35,10 @@ export function AppRoutes() {
             <Route element={<ProtectedRoute isAllowed={!!token} redirectPath="/login" />}>
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/:userId" element={<UsersDetail />} />
+            </Route>
+
+            <Route element={<ProtectedRoute isAllowed={!!token && userRole === 'admin'} redirectPath="/login" />}>
+                <Route path="/create-user" element={<CreateUser />} />
             </Route>
 
             <Route path="/pokemons" element={<Pokemons />} />

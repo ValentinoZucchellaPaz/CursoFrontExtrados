@@ -21,7 +21,7 @@ export interface APICreateUserProps {
     pais: string, // validar pais
     email: string, // validar email
     contraseña: string,
-    role: "admin" | "juez" | "org" | "jugador",
+    role: "admin" | "juez" | "organizador" | "jugador",
     alias: string,
     avatar: string
 }

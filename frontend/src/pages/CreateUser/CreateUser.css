@@ -1,0 +1,11 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+    margin: 2rem 0;
+}
+
+.card {
+    padding: 1rem 5rem;
+}

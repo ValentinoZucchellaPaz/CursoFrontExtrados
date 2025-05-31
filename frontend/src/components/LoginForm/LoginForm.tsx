@@ -15,12 +15,6 @@ export default function Login() {
 	const [loading, setLoading] = useState(false)
 	const dispatch = useAppDispatch()
 
-
-	const validateEmail = (email: string) => {
-		const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-		return pattern.test(email)
-	}
-
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError('');
