@@ -131,16 +131,16 @@ def generate_cartas_de_serie():
         asignaciones.extend((id_serie, id_carta) for id_carta in cartas_adicionales)
     
     # # Verificar resultados
-    # print(f"Total asignaciones: {len(asignaciones)}")
-    # print(asignaciones[:10])  # Muestra las primeras 10 asignaciones
+    print(f"Total asignaciones: {len(asignaciones)}")
+    print(asignaciones[:10])  # Muestra las primeras 10 asignaciones
 
-    # # Validación: Contar cuántas veces aparece cada carta
-    # conteo_cartas = {id_carta: 0 for id_carta in cartas}
-    # for _, id_carta in asignaciones:
-    #     conteo_cartas[id_carta] += 1
+    # Validación: Contar cuántas veces aparece cada carta
+    conteo_cartas = {id_carta: 0 for id_carta in cartas}
+    for _, id_carta in asignaciones:
+        conteo_cartas[id_carta] += 1
 
-    # print("Distribución de asignaciones por carta:")
-    # print({carta: veces for carta, veces in conteo_cartas.items() if veces > 1})
+    print("Distribución de asignaciones por carta:")
+    print({carta: veces for carta, veces in conteo_cartas.items() if veces > 1})
 
     # subir a db
     for id_serie, id_carta in asignaciones:
