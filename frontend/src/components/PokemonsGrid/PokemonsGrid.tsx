@@ -13,7 +13,7 @@ const PokemonsGrid: React.FC<PokemonsGridProps> = ({ pokemons }) => {
 	const navigate = useNavigate()
 	return (
 		<ul className='pokemon-grid'>
-			{pokemons?.map(pokemon => <Card title={pokemon.nombre} footer={"Pokemon ID: " + pokemon.id} image={pokemon.ilustracion} onClick={() => navigate(`/pokemons/${pokemon.nombre}`)} />)}
+			{pokemons?.map(pokemon => <Card key={pokemon.nombre} title={pokemon.nombre} footer={"Pokemon ID: " + pokemon.id} image={pokemon.ilustracion} onClick={() => navigate(`/pokemons/${pokemon.nombre}`)} />)}
 		</ul>
 	);
 };

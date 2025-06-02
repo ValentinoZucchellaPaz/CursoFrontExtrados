@@ -8,9 +8,11 @@ import {
     Select,
     Option,
     Typography,
+    IconButton,
 } from '@mui/joy';
 import './Form.css'
 import { AxiosResponse } from 'axios';
+import { TbEye, TbEyeClosed } from 'react-icons/tb';
 
 export type Field = {
     name: string;
@@ -41,12 +43,20 @@ const Form = ({
         }, {} as Record<string, string>)
     );
 
+    const [showPasswords, setShowPasswords] = useState<Record<string, boolean>>({})
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     const handleChange = (name: string, value: string) => {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
+
+    const togglePassword = (fieldName: string) => {
+        setShowPasswords((prev) => ({
+            ...prev,
+            [fieldName]: !prev[fieldName]
+        }))
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -88,6 +98,14 @@ const Form = ({
                                 value={form[field.name]}
                                 onChange={(_, val) => handleChange(field.name, val ?? '')}
                                 placeholder="Seleccionar..."
+                                sx={{
+                                    "& button:hover": {
+                                        backgroundColor: 'transparent'
+                                    },
+                                    "& button:focus": {
+                                        outline: 'none'
+                                    }
+                                }}
                             >
                                 {field.options.map((opt) => (
                                     <Option key={opt} value={opt}>
@@ -97,10 +115,34 @@ const Form = ({
                             </Select>
                         ) : (
                             <Input
-                                type={field.type}
+                                type={
+                                    field.type === 'password'
+                                        ? showPasswords[field.name]
+                                            ? 'text'
+                                            : 'password'
+                                        : field.type
+                                }
                                 name={field.name}
                                 value={form[field.name]}
                                 onChange={(e) => handleChange(field.name, e.target.value)}
+                                endDecorator={
+                                    field.type === 'password' && (
+                                        <IconButton
+                                            variant='plain'
+                                            sx={{
+                                                "&:focus": {
+                                                    outline: 'none'
+                                                }
+                                            }}
+                                            onClick={() => togglePassword(field.name)}>
+                                            {
+                                                showPasswords[field.name]
+                                                    ? (<TbEye />)
+                                                    : (<TbEyeClosed />)
+                                            }
+                                        </IconButton>
+                                    )
+                                }
                             />
                         )}
                     </FormControl>

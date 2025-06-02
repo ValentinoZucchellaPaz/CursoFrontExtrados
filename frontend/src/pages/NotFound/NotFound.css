@@ -1,7 +1,7 @@
 .not-found {
     text-align: center;
     padding: 5rem 2rem;
-    color: #eee;
+    color: var(--text);
     min-height: 80vh;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .not-found a {
-    color: #0af;
+    color: var(--primary-light);
     text-decoration: underline;
     font-weight: bold;
 }

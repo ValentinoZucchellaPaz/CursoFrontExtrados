@@ -4,8 +4,12 @@
     align-items: center;
     background-color: var(--bg);
     margin: 2rem 0;
-}
 
-.card {
-    padding: 1rem 5rem;
+    .card {
+        padding: 1rem 5rem;
+
+        &:hover {
+            transform: none;
+        }
+    }
 }

@@ -14,6 +14,7 @@ export default function CreateUser() {
         <div className="form-container">
             <Card
                 title='Crear usuario'
+
             >
                 <Form
                     fields={[
@@ -32,7 +33,7 @@ export default function CreateUser() {
                         {
                             name: 'contraseña',
                             label: 'Contraseña',
-                            type: 'text',
+                            type: 'password',
                             required: true,
                             validate: validateEmail
                         },
