@@ -27,15 +27,15 @@ export default function CreateUser() {
                         {
                             name: 'email',
                             label: 'Email',
-                            type: 'text',
+                            type: 'email',
                             required: true,
+                            validate: validateEmail
                         },
                         {
                             name: 'contraseña',
                             label: 'Contraseña',
                             type: 'password',
                             required: true,
-                            validate: validateEmail
                         },
                         {
                             name: 'alias',
