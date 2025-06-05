@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
 import { fetchPokemons } from "../../store/slices/pokemonSlice";
 import { MdArrowBack } from "react-icons/md";
+import { CircularProgress } from "@mui/joy";
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
@@ -24,9 +25,13 @@ export default function PokemonDetail({ }) {
     }, [pokemonsState])
 
     if (pokemonsState.status === 'loading'
-    ) return <p>Cargando...</p>;
+    ) return <div className="loader-container">
+        <CircularProgress thickness={2} variant="plain" />
+    </div>
 
-    if (pokemonsState.status === 'failed' && pokemonsState.error) return <p>Error: {pokemonsState.error}</p>
+    if (pokemonsState.status === 'failed' && pokemonsState.error) return <div className="loader-container">
+        <p>Error: {pokemonsState.error}</p>
+    </div>
 
     const pokemon = pokemonsState.items?.find(pok => pok.nombre === pokemonName)
     if (pokemon === undefined) return <p>No se ha encontrado el pokemon {pokemonName}</p>

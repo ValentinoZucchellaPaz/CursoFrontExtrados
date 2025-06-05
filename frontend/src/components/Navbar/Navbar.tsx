@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../ThemeToggle';

@@ -26,7 +26,7 @@ export type Field = {
 export type FormProps = {
     fields: Field[];
     initialValues?: Record<string, string>;
-    onSubmit: (data: Record<string, string>) => void | Promise<void> | Promise<AxiosResponse<any, any>>;
+    onSubmit: (data: Record<string, string>) => void | Promise<any> | Promise<AxiosResponse<any, any>>;
     submitLabel?: string;
 };
 

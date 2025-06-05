@@ -1,5 +1,3 @@
-"use client";
-import React from 'react';
 import './PokemonsGrid.css';
 import { APICard } from '../../store/types';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +7,7 @@ export type PokemonsGridProps = {
 	pokemons: APICard[]
 }
 
-const PokemonsGrid: React.FC<PokemonsGridProps> = ({ pokemons }) => {
+const PokemonsGrid = ({ pokemons }: PokemonsGridProps) => {
 	const navigate = useNavigate()
 	return (
 		<ul className='pokemon-grid'>

@@ -1,0 +1,30 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg);
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+
+        .card-content {
+            height: 100%;
+            width: 80%;
+            margin: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        &:hover {
+            transform: none;
+        }
+    }
+}

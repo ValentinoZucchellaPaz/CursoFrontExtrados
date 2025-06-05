@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
-import prettierPlugin from 'eslint-plugin-prettier';
+// import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 
 export default [
@@ -26,7 +26,7 @@ export default [
             react: reactPlugin,
             'react-hooks': reactHooksPlugin,
             import: importPlugin,
-            prettier: prettierPlugin,
+            // prettier: prettierPlugin,
         },
         rules: {
             'prettier/prettier': 'error',

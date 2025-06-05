@@ -30,7 +30,8 @@
 .card-content h3 {
     margin: 0;
     font-size: 1.25rem;
-    color: var(--primary);
+    color: var(--primary-light);
+    /* color: var(--primary); */
     text-transform: capitalize;
 }
 
