@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import './Pokemons.css';
 import { fetchPokemons } from '../../store/slices/pokemonSlice';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { PokemonsGrid } from '../../components/PokemonsGrid';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
+import { CircularProgress } from '@mui/joy';
 
 const Pokemons = ({ }) => {
 
@@ -28,9 +28,15 @@ const Pokemons = ({ }) => {
 		}
 	}, [status, dispatch])
 
-	if (status === 'loading') return <p>Cargando...</p>;
-	if (status === 'failed') return <p>Error: {error}</p>;
-	if (status === 'succeeded' && pokemons?.length === 0) return <p>Ha ocurrido un error al obtener los pokemon</p>
+	if (status === 'loading') return <div className="loader-container">
+		<CircularProgress thickness={2} variant="plain" />
+	</div>
+	if (status === 'failed') return <div className="loader-container">
+		<p>Error: {error}</p>;
+	</div>
+	if (status === 'succeeded' && pokemons?.length === 0) return <div className="loader-container">
+		<p>Ha ocurrido un error al obtener los pokemon</p>
+	</div>
 
 	return (
 		<div className='pokemons'>

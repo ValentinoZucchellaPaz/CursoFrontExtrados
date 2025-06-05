@@ -61,3 +61,10 @@ body {
     min-height: 60vh;
     /* min-height: calc(100%-96px); */
 }
+
+.loader-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

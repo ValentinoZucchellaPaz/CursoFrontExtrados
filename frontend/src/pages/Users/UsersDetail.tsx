@@ -10,9 +10,11 @@ import {
     Button, Stack, Tooltip,
     Modal, ModalDialog,
     DialogTitle, DialogContent, DialogActions,
+    CircularProgress,
 } from '@mui/joy';
 
 import { useAppSelector } from '../../store/hooks';
+import { deleteValidations } from '../../utils/validations';
 
 
 const UsersDetail = ({ }) => {
@@ -21,12 +23,10 @@ const UsersDetail = ({ }) => {
     const [error, setError] = useState('')
     const [openModal, setOpenModal] = useState(false);
 
-    // validaciones para eliminar usuario
-    const currentUser = useAppSelector((store) => store.auth)
-    const isSameUser = currentUser.userId == user?.id.toLocaleString()
-    const isAdmin = currentUser.userRole === 'admin' && user?.role !== 'admin';
+    // validaciones y metodo para eliminar usuario
+    const loggedUser = useAppSelector((store) => store.auth)
     const isPlayer = user?.role === 'jugador'
-    const canDeleteEdit = isAdmin && !isSameUser;
+    const canDeleteEdit = user ? deleteValidations(loggedUser, user) : false
     const handleDelete = async () => {
         if (!canDeleteEdit) return; // seguridad extra
         try {
@@ -38,9 +38,6 @@ const UsersDetail = ({ }) => {
             setError(error.message)
         }
     };
-
-
-
 
     const navigate = useNavigate()
     const { userId } = useParams()
@@ -62,7 +59,9 @@ const UsersDetail = ({ }) => {
         }
     }, [])
 
-    if (loading) return <p style={{ textAlign: 'center' }}>Cargando...</p>
+    if (loading) return <div className="loader-container">
+        <CircularProgress thickness={2} variant="plain" />
+    </div>
     if (error) return <p style={{ textAlign: 'center' }}>{error}</p>
     return (
         <div className='user-detail-container'>

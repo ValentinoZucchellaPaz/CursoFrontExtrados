@@ -5,7 +5,7 @@ import { getUsers } from '../../services/userService';
 import UserTable from '../../components/UsersTable/UsersTable';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { MdAdd } from 'react-icons/md'
-import { Button, Stack } from '@mui/joy';
+import { Button, CircularProgress, Stack } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -33,7 +33,9 @@ const Users = () => {
 
 	}, [])
 
-	if (loading) return <p>Cargando...</p>
+	if (loading) return <div className="loader-container">
+		<CircularProgress thickness={2} variant="plain" />
+	</div>
 	if (error) return <p>{error}</p>
 	return (
 		<div className='users'>
@@ -60,7 +62,7 @@ const Users = () => {
 
 
 
-			{filteredUsers && <UserTable users={filteredUsers} />}
+			{filteredUsers && <UserTable users={filteredUsers} setUsers={setUsers} />}
 		</div>
 	);
 };

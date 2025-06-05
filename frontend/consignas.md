@@ -15,4 +15,10 @@ implementación crud usuarios:
 ✅poner botones y links para ir a las distintas vistas y ver dialog
 
 implementación asignar cartas a jugadores:
-desplegar dialog en userDetail donde se pueden elegir cartas (mostradas como cards con stats, poner distintas formas de visualizar pero se deben clickear para elegir, botón de guardar se deshabilita con menos de 8 y cartas se deshabilita cuando 15 select, botón de guardar debe enviar post a api con cartas que se agregan a colección)
+opción 1 desplegar dialog en userDetail donde se pueden elegir cartas (mostradas como cards con stats, poner distintas formas de visualizar pero se deben clickear para elegir, botón de guardar se deshabilita con menos de 8 y cartas se deshabilita cuando 15 select, botón de guardar debe enviar post a api con cartas que se agregan a colección)
+
+opción 2: 
+pagina en donde tengo una parte donde se ven todas las cartas actuales del mazo (coleccion), debajo otra sección donde se puedan clickear y seleccionar las cartas
+las cartas que ya son parte de la colección del usuario deben mantenerse "bloqueadas para que no se puedan des-seleccionar" ya que solo se pueden agregar cartas a la colección de un jugador, no se pueden eliminar (limitación el backend), en la parte de coleccion se muestran opacas
+cuando se selecciona una nueva carta, en la selección debe opacarse y mostrarse con un ✅, en la vista de coleccion se muestra con color
+arriba a la der se muestra un boton agregar, que al presionarlo se mandan ids de cartas nuevas al endpoint

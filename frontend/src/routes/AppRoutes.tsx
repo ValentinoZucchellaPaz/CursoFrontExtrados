@@ -11,6 +11,7 @@ import { Users } from "../pages/Users";
 import { refreshAccessTokenThunk } from "../store/thunks/authThunks";
 import UsersDetail from "../pages/Users/UsersDetail";
 import CreateUser from "../pages/CreateUser/CreateUser";
+import { CircularProgress } from "@mui/joy";
 
 
 export function AppRoutes() {
@@ -24,7 +25,9 @@ export function AppRoutes() {
         }
     }, [token, dispatch])
 
-    if (!authChecked) return <p>Cargando usuario...</p>
+    if (!authChecked) return <div className="loader-container">
+        <CircularProgress thickness={2} variant="plain" />
+    </div>
 
 
     return (
