@@ -9,7 +9,7 @@ import { logout, setCredentials } from "../store/slices/authSlice";
 import { AuthTokenPayload } from "../store/types";
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:5125", // o poner solo parte común si usás más de un dominio
+    baseURL: "http://localhost:5125",
     timeout: 10000, // timeout de 10s
     headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ apiClient.interceptors.response.use(
     },
 );
 
-// interceptor de errores
+// interceptor de errores -- manejar con var de entorno que muestre si estoy en desarrollo, no en produccion
 apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {

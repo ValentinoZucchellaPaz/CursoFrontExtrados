@@ -7,6 +7,8 @@ import { store } from './store/store'
 import '@fontsource/inter'
 
 const rootElement = document.getElementById('root')
+
+// tema oscuro css
 const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 document.documentElement.setAttribute("data-theme", userPrefersDark ? "dark" : "light");
 
