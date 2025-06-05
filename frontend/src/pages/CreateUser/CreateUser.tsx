@@ -2,7 +2,7 @@ import { Card } from "../../components/Card";
 import { Form } from "../../components/Form";
 import { createUser } from "../../services/userService";
 import { mapFormToCreateUser } from "../../utils/mapForm";
-import { validateEmail } from "../../utils/validations";
+import { validateEmail, validateURL } from "../../utils/validations";
 import './CreateUser.css'
 
 export default function CreateUser() {
@@ -45,7 +45,8 @@ export default function CreateUser() {
                         {
                             name: 'avatar',
                             label: 'Avatar (url de imagen)',
-                            type: 'url'
+                            type: 'url',
+                            validate: validateURL
                         },
                         {
                             name: 'role',

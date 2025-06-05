@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { logout, setCredentials } from "../slices/authSlice";
-import { APILoginProps } from "../types";
+import { LoginPayload } from "../types";
 import { loginUser, logoutUser, refreshAccessToken } from "../../services/userService";
 
 // thunk con inicio de sesion
 export const loginUserThunk = createAsyncThunk(
     'auth/loginUser',
-    async (loginData: APILoginProps, { dispatch }) => {
+    async (loginData: LoginPayload, { dispatch }) => {
         try {
             const response = await loginUser(loginData)
 

@@ -83,7 +83,7 @@ export default function UserTable({ users, setUsers }: { users: APIUserProps[], 
 											disabled={u.role === 'admin'}
 											onClick={(e) => {
 												e.stopPropagation()
-												navigate(`/usuarios/${u.id}/editar`)
+												navigate(`/users/${u.id}/editar`)
 											}}
 										>
 											<MdEdit />

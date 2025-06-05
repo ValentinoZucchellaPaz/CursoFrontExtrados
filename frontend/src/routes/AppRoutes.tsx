@@ -12,6 +12,7 @@ import { refreshAccessTokenThunk } from "../store/thunks/authThunks";
 import UsersDetail from "../pages/Users/UsersDetail";
 import CreateUser from "../pages/CreateUser/CreateUser";
 import { CircularProgress } from "@mui/joy";
+import EditUser from "../pages/Users/EditUser";
 
 
 export function AppRoutes() {
@@ -42,6 +43,7 @@ export function AppRoutes() {
 
             <Route element={<ProtectedRoute isAllowed={!!token && userRole === 'admin'} redirectPath="/login" />}>
                 <Route path="/create-user" element={<CreateUser />} />
+                <Route path="/users/:userId/editar" element={<EditUser />} />
             </Route>
 
             <Route path="/pokemons" element={<Pokemons />} />

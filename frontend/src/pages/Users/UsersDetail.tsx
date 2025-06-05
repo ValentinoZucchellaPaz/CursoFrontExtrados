@@ -18,10 +18,12 @@ import { deleteValidations } from '../../utils/validations';
 
 
 const UsersDetail = ({ }) => {
-    const [user, setUser] = useState<APIUserProps | null>(null) // además hacer estado global con usuario en cuestión
+    const [user, setUser] = useState<APIUserProps | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const [openModal, setOpenModal] = useState(false);
+
+    // modals de eliminar y editar usuario
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     // validaciones y metodo para eliminar usuario
     const loggedUser = useAppSelector((store) => store.auth)
@@ -62,14 +64,15 @@ const UsersDetail = ({ }) => {
     if (loading) return <div className="loader-container">
         <CircularProgress thickness={2} variant="plain" />
     </div>
-    if (error) return <p style={{ textAlign: 'center' }}>{error}</p>
+    if (error) return <div className="loader-container">
+        <p style={{ textAlign: 'center' }}>{error}</p>
+    </div>
     return (
         <div className='user-detail-container'>
             <button className='back-arrow' onClick={() => navigate(-1)}><MdArrowBack color='var(--primary)' /></button>
             {user ?
                 <Card
                     title={user.alias ? `Alias: ${user.alias}` : `Nombre: ${user.name}`}
-                    // footer={ }
                     image={user.avatar}
                 >
                     <p>{!user.name && user.name}</p>
@@ -84,14 +87,21 @@ const UsersDetail = ({ }) => {
                                 <Button
                                     disabled={!canDeleteEdit}
                                     color='danger' variant='outlined'
-                                    onClick={() => { canDeleteEdit && setOpenModal(true) }}>
+                                    onClick={() => { canDeleteEdit && setOpenDeleteModal(true) }}>
                                     <MdDelete />
                                 </Button>
                             </span>
                         </Tooltip>
                         <Tooltip title={!canDeleteEdit ? "No se puede editar a este usuario" : "Editar usuario"}>
                             <span>
-                                <Button disabled={!canDeleteEdit} color='primary' variant='outlined'><MdEdit /></Button>
+                                <Button
+                                    disabled={!canDeleteEdit}
+                                    color='primary'
+                                    variant='outlined'
+                                    onClick={() => navigate(`/users/${user.id}/editar`)}
+                                >
+                                    <MdEdit />
+                                </Button>
                             </span>
                         </Tooltip>
                         {isPlayer && <Tooltip title="Editar colección de cartas">
@@ -101,7 +111,7 @@ const UsersDetail = ({ }) => {
                 </Card>
                 : "Error encontrando el usuario con id" + userId}
 
-            <Modal open={openModal} onClose={() => setOpenModal(false)}>
+            <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
                 <ModalDialog variant="outlined" role="alertdialog"
                     sx={{ backgroundColor: 'var(--surface)', color: 'var(--text)' }}>
                     <DialogTitle>¿Estás seguro?</DialogTitle>
@@ -109,7 +119,7 @@ const UsersDetail = ({ }) => {
                         Esta acción eliminará permanentemente al usuario <strong>{user?.alias}</strong>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="plain" onClick={() => setOpenModal(false)}>Cancelar</Button>
+                        <Button variant="plain" onClick={() => setOpenDeleteModal(false)}>Cancelar</Button>
                         <Button
                             variant="solid"
                             color="danger"

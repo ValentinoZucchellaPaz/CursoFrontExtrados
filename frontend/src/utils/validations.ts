@@ -13,3 +13,8 @@ export const deleteValidations = (loggedUser: AuthState, userToDelete: APIUserPr
     const isAdmin = loggedUser.userRole === 'admin' && userToDelete?.role !== 'admin';
     return isAdmin && !isSameUser;
 }
+
+export const validateURL = (url: string) => {
+    if (url.length > 100) return "La URL no puede tener mas de 100 caracteres"
+    return
+}
