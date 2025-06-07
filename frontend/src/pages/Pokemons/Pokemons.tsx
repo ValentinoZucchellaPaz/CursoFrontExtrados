@@ -18,11 +18,6 @@ const Pokemons = ({ }) => {
 		), [pokemons, searchTerm]);
 
 	useEffect(() => {
-		console.log("use effect de posts");
-		console.log(status);
-		console.log(pokemons);
-
-
 		if (status == "idle") {
 			dispatch(fetchPokemons())
 		}

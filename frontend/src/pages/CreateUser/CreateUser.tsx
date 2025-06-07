@@ -2,7 +2,7 @@ import { Card } from "../../components/Card";
 import { Form } from "../../components/Form";
 import { createUser } from "../../services/userService";
 import { mapFormToCreateUser } from "../../utils/mapForm";
-import { validateEmail, validateURL } from "../../utils/validations";
+import { validateAlias, validateEmail, validateName, validatePassword, validateRole, validateURL } from "../../utils/validations";
 import './CreateUser.css'
 
 export default function CreateUser() {
@@ -23,6 +23,7 @@ export default function CreateUser() {
                             label: 'Nombre',
                             type: 'text',
                             required: true,
+                            validate: validateName
                         },
                         {
                             name: 'email',
@@ -36,11 +37,13 @@ export default function CreateUser() {
                             label: 'Contraseña',
                             type: 'password',
                             required: true,
+                            validate: validatePassword
                         },
                         {
                             name: 'alias',
                             label: 'Alias',
                             type: 'text',
+                            validate: validateAlias
                         },
                         {
                             name: 'avatar',
@@ -53,7 +56,8 @@ export default function CreateUser() {
                             label: 'Rol',
                             type: 'select',
                             required: true,
-                            options: ['admin', 'organizador', 'juez', 'jugador']
+                            options: ['admin', 'organizador', 'juez', 'jugador'],
+                            validate: validateRole
                         },
                     ]}
                     onSubmit={handleSubmit} />

@@ -45,8 +45,6 @@ apiClient.interceptors.response.use(
                     "/usuario/refresh-token"
                 );
 
-                console.log(refreshResponse.data);
-
                 const { accessToken, userEmail, userId, userRole } =
                     refreshResponse.data;
 
@@ -61,8 +59,6 @@ apiClient.interceptors.response.use(
 
                 return apiClient(originalRequest);
             } catch (refreshError) {
-                console.log("error en reenvio de refresh");
-
                 store.dispatch(logout()); // elimina estado global de auth
                 // llamo a logout de endpoint para borrar cookie?
                 return Promise.reject(refreshError);

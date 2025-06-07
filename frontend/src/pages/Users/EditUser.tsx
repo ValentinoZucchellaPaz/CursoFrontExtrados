@@ -3,7 +3,7 @@ import { APIUserProps } from "../../store/types"
 import { useNavigate, useParams } from "react-router-dom"
 import { getUser, updateUser } from "../../services/userService"
 import { CircularProgress } from "@mui/joy"
-import { validateEmail, validateURL } from "../../utils/validations"
+import { validateAlias, validateEmail, validateName, validatePassword, validateRole, validateURL } from "../../utils/validations"
 import { Form } from "../../components/Form"
 import { Card } from "../../components/Card"
 import { mapFormToUpdatePayload, mapUserToFormValues } from "../../utils/mapForm"
@@ -63,6 +63,7 @@ export default function EditUser() {
                             name: 'nombre',
                             label: 'Nombre',
                             type: 'text',
+                            validate: validateName
                         },
                         {
                             name: 'email',
@@ -74,11 +75,13 @@ export default function EditUser() {
                             name: 'contraseña',
                             label: 'Nueva Contraseña',
                             type: 'password',
+                            validate: validatePassword
                         },
                         {
                             name: 'alias',
                             label: 'Alias',
                             type: 'text',
+                            validate: validateAlias
                         },
                         {
                             name: 'avatar',
@@ -90,7 +93,8 @@ export default function EditUser() {
                             name: 'role',
                             label: 'Rol',
                             type: 'select',
-                            options: ['admin', 'organizador', 'juez', 'jugador']
+                            options: ['admin', 'organizador', 'juez', 'jugador'],
+                            validate: validateRole
                         },
                     ]}
                     initialValues={user ? mapUserToFormValues(user) : {}}
