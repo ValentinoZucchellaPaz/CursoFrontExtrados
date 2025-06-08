@@ -63,7 +63,7 @@ body {
 }
 
 .loader-container {
-    height: 100vh;
+    height: calc(100vh - 10rem);
     display: flex;
     justify-content: center;
     align-items: center;

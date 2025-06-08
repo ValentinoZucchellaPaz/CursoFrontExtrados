@@ -7,6 +7,7 @@ import { validateAlias, validateEmail, validateName, validatePassword, validateR
 import { Form } from "../../components/Form"
 import { Card } from "../../components/Card"
 import { mapFormToUpdatePayload, mapUserToFormValues } from "../../utils/mapForm"
+import { useAppSelector } from "../../store/hooks"
 
 export default function EditUser() {
     const [user, setUser] = useState<APIUserProps | null>(null)
@@ -15,6 +16,8 @@ export default function EditUser() {
 
     const navigate = useNavigate()
     const { userId } = useParams()
+
+    const idLogged = useAppSelector(store => store.auth.userId)
 
     // scroll to top cuando renderize
     useEffect(() => {
@@ -48,6 +51,9 @@ export default function EditUser() {
     </div>
     if (error) return <div className="loader-container">
         <p style={{ textAlign: 'center' }}>{error}</p>
+    </div>
+    if (user?.role === 'admin' && user.id.toLocaleString() != idLogged) return <div className="loader-container">
+        <p style={{ textAlign: 'center' }}>Por el momento no puedes editar este usuario</p>
     </div>
 
     return (

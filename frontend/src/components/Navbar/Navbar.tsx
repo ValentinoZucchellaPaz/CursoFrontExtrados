@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './NavBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../ThemeToggle';
+import { UserMenu } from '../UserMenu';
+import { useAppSelector } from '../../store/hooks';
 
 interface LinkProp {
 	url: string
@@ -15,6 +17,7 @@ interface NavbarProps {
 
 const NavBar = ({ links = [] }: NavbarProps) => {
 	const [menuOpen, setMenuOpen] = useState(false)
+	const loggedUserId = useAppSelector(store => store.auth.userId)
 
 	const navigate = useNavigate()
 	return (
@@ -45,8 +48,10 @@ const NavBar = ({ links = [] }: NavbarProps) => {
 						<li>
 							<ThemeToggle />
 						</li>
-						{/* agregar info usuario */}
 					</ul>
+					<div className="user-menu">
+						{loggedUserId && <UserMenu id={loggedUserId} />}
+					</div>
 				</div>
 
 			</nav>

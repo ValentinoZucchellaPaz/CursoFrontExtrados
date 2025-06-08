@@ -19,6 +19,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 /* Logo */
@@ -107,5 +108,12 @@
     .nav-container {
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .user-menu {
+        position: absolute;
+        padding: 2px;
+        top: 14px;
+        left: 20px;
     }
 }
