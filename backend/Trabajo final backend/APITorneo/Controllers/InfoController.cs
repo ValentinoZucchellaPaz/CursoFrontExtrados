@@ -50,7 +50,7 @@ namespace APITorneo.Controllers
         }
 
 
-        // INFO DE TORNEOS: parte publica, debería tener restricciones?
+        // INFO DE TORNEOS: parte publica, deberï¿½a tener restricciones?
         [HttpGet("torneos")]
         [ProducesResponseType<List<DTOInfoTorneo>>(200)]
         public async Task<IActionResult> GetTorneos()
@@ -60,7 +60,7 @@ namespace APITorneo.Controllers
 
         [HttpGet("torneos/{idTorneo}")]
         [ProducesResponseType<DTOInfoTorneo>(200)]
-        [EndpointDescription("se retorna toda la información relacionada al torneo")]
+        [EndpointDescription("se retorna toda la informaciï¿½n relacionada al torneo")]
         public async Task<IActionResult> GetTorneo(int idTorneo)
         {
             return Ok(await _infoService.GetTorneoPorId(idTorneo));
@@ -143,7 +143,7 @@ namespace APITorneo.Controllers
         [ProducesResponseType<IEnumerable<DTOJugador>>(200)]
         [ProducesResponseType<IEnumerable<DTOUsuario>>(200)]
         [ProducesResponseType<IEnumerable<DTOUsuarioConIdCreador>>(200)]
-        [EndpointDescription("se retorna segun el usuario logeado, todos los usuarios del sistema que puede ver (no puede ver roles con mayor jerarquía)")]
+        [EndpointDescription("se retorna segun el usuario logeado, todos los usuarios del sistema que puede ver (no puede ver roles con mayor jerarquï¿½a)")]
         public async Task<IActionResult> GetUsuarios()
         {
             var userRole = GetUserRoles();
@@ -177,6 +177,18 @@ namespace APITorneo.Controllers
                 return Ok(DTOUsuarioConIdCreador.FromUsuario(res));
             }
             return Ok(DTOUsuario.FromUsuario(res));
+        }
+
+        [HttpGet("usuarios/{userId}/coleccion")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType<IEnumerable<Carta>>(200)]
+        public async Task<IActionResult> GetColeccionDeUsuario(int userId)
+        {
+            // validar que existe usuario (si no existe se lanza excepcion desde userService)
+            await _usuarioService.GetUsuarioDisponiblePorId(UserRole.admin, userId.ToString());
+
+            var res = await _usuarioService.GetColeccion(userId);
+            return Ok(res);
         }
 
         private UserRole GetUserRoles()

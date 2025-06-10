@@ -29,7 +29,7 @@ namespace APITorneo.Controllers
 
             // validar mail y contraseña, generar y devolver access token y cookie con refresh token
             var user = await _userService.Authenticate(request);
-            if(user == null) return Unauthorized("mail o contraseña incorrectos");
+            if (user == null) return Unauthorized("mail o contraseña incorrectos");
 
             DTOJWT accessToken = _authService.GenerateAccessToken(user.Id, user.Email, user.Role);
             DTOJWT refreshToken = await _authService.GenerateRefreshToken(user.Id, user.Email, user.Role);
@@ -80,11 +80,11 @@ namespace APITorneo.Controllers
 
             var accessToken = _authService.GenerateAccessToken(userId, usuario.Email, usuario.Role);
 
-            return Ok(new DTOLoginResponse() { 
-                AccessToken=accessToken.Token,
-                UserEmail=usuario.Email,
-                UserId=usuario.Id,
-                UserRole=usuario.Role,
+            return Ok(new DTOLoginResponse() {
+                AccessToken = accessToken.Token,
+                UserEmail = usuario.Email,
+                UserId = usuario.Id,
+                UserRole = usuario.Role,
             });
         }
 
@@ -103,7 +103,7 @@ namespace APITorneo.Controllers
 
             var userId = int.Parse(parts[0]);
             string refreshToken = parts[1];
-            if(refreshToken == null) return NoContent();
+            if (refreshToken == null) return NoContent();
 
             // elimino de db
             var res = await _authService.BorrarRefreshToken(userId, refreshToken);
@@ -155,7 +155,7 @@ namespace APITorneo.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState); // Devuelve errores de validación
             var edited = await _userService.EditarUsuario(id, camposActualizados);
-            
+
             return edited ? NoContent() : BadRequest("No se pudo editar correctamente el usuario");
         }
 
@@ -171,12 +171,24 @@ namespace APITorneo.Controllers
 
         // METODOS DEL JUGADOR PARA VER SUS CARTAS
         [HttpGet("coleccion")]
-        [Authorize(Roles="jugador")]
+        [Authorize(Roles = "jugador")]
         [ProducesResponseType<IEnumerable<Carta>>(200)]
         public async Task<IActionResult> GetColeccion()
         {
             var creador = GetInfoCreador();
             var res = await _userService.GetColeccion(creador.Id);
+            return Ok(res);
+        }
+
+        [HttpGet("coleccion")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType<IEnumerable<Carta>>(200)]
+        public async Task<IActionResult> GetColeccionPorIdUsuario (int userId) 
+        {
+            // validar que existe usuario (si no existe se lanza excepcion desde userService)
+            await _userService.GetUsuarioDisponiblePorId(UserRole.admin, userId.ToString());
+
+            var res = await _userService.GetColeccion(userId);
             return Ok(res);
         }
 

@@ -37,31 +37,42 @@ apiClient.interceptors.response.use(
             _retry?: boolean;
         };
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
+        const isRefreshEndpoint = originalRequest?.url?.includes("usuario/refresh-token");
 
-            try {
-                const refreshResponse = await apiClient.post<AuthTokenPayload>(
-                    "/usuario/refresh-token"
-                );
+        // Si ya hizo el refresh, o el refresh también falló, abortar
+        if (error.response?.status === 401) {
+            if (isRefreshEndpoint) {
+                store.dispatch(logout());
+                return Promise.reject(error);
+            }
+            if (!originalRequest._retry) {
+                originalRequest._retry = true;
+                console.log('retrying');
 
-                const { accessToken, userEmail, userId, userRole } =
-                    refreshResponse.data;
 
-                store.dispatch(
-                    setCredentials({ token: accessToken, userId, userEmail, userRole }),
-                );
+                try {
+                    const refreshResponse = await apiClient.post<AuthTokenPayload>(
+                        "usuario/refresh-token"
+                    );
 
-                originalRequest.headers = {
-                    ...originalRequest.headers,
-                    Authorization: `Bearer ${accessToken}`,
-                };
+                    const { accessToken, userEmail, userId, userRole } =
+                        refreshResponse.data;
 
-                return apiClient(originalRequest);
-            } catch (refreshError) {
-                store.dispatch(logout()); // elimina estado global de auth
-                // llamo a logout de endpoint para borrar cookie?
-                return Promise.reject(refreshError);
+                    store.dispatch(
+                        setCredentials({ token: accessToken, userId, userEmail, userRole }),
+                    );
+
+                    originalRequest.headers = {
+                        ...originalRequest.headers,
+                        Authorization: `Bearer ${accessToken}`,
+                    };
+
+                    return apiClient(originalRequest);
+                } catch (refreshError) {
+                    store.dispatch(logout()); // elimina estado global de auth
+                    // llamo a logout de endpoint para borrar cookie?
+                    return Promise.reject(refreshError);
+                }
             }
         }
 

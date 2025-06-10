@@ -13,6 +13,7 @@ import UsersDetail from "../pages/Users/UsersDetail";
 import CreateUser from "../pages/CreateUser/CreateUser";
 import { CircularProgress } from "@mui/joy";
 import EditUser from "../pages/Users/EditUser";
+import { AddToCollection } from "../pages/AddToCollection";
 
 
 export function AppRoutes() {
@@ -44,6 +45,7 @@ export function AppRoutes() {
             <Route element={<ProtectedRoute isAllowed={!!token && userRole === 'admin'} redirectPath="/login" />}>
                 <Route path="/create-user" element={<CreateUser />} />
                 <Route path="/users/:userId/editar" element={<EditUser />} />
+                <Route path="/users/:userId/coleccion" element={<AddToCollection />} />
             </Route>
 
             <Route path="/pokemons" element={<Pokemons />} />
