@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Models.DTO.Cartas.Request;
 using Models.DTO.Cartas.Response;
 using Models.DTO.Usuarios;
 using Models.DTO.Usuarios.Request;
@@ -211,6 +213,23 @@ namespace APITorneo.Controllers
             var res = await _userService.GetMazoPorId(creador.Id, id);
             return Ok(res);
         }
+
+        [HttpPost("agregar-a-coleccion-de-jugador")]
+        [Authorize(Roles = "admin")]
+        [EndpointDescription("Retorna la cant de cartas subidas")]
+        public async Task<IActionResult> AgregarAColeccionDeJugador(DTOAgregarCartas request)
+        {
+            // validar que id es de jugador activo
+            var jugador = await _userService.GetUsuarioDisponiblePorId(UserRole.admin, request.IdJugador.ToString()) ?? throw new KeyNotFoundException($"No se encontró el usuario con id {request.IdJugador}");
+            if (!Enum.TryParse<UserRole>(jugador.Role, true, out var parsedRole) || !Enum.IsDefined(typeof(UserRole), parsedRole))
+                if (parsedRole != UserRole.jugador)
+                    throw new ArgumentException($"El usuario con id {request.IdJugador} no es un jugador");
+            // agrego cartas
+            var res = await _userService.AgregarAColeccion(request.IdJugador, request.Cartas);
+            return Ok(res);
+        }
+
+
 
         [HttpPost("agregar-a-coleccion")]
         [Authorize(Roles = "jugador")]

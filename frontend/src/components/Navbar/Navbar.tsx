@@ -41,7 +41,9 @@ const NavBar = ({ links = [] }: NavbarProps) => {
 									</li>
 									:
 									<li key={link.url}>
-										<Link to={link.url}>{link.title}</Link>
+										<Link to={link.url} onClick={() => {
+											menuOpen && setMenuOpen(prev => !prev)
+										}}>{link.title}</Link>
 									</li>
 							))
 						}

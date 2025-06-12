@@ -51,10 +51,7 @@ export default function UserTable({ users, setUsers }: { users: APIUserProps[], 
 					hoverRow
 					sx={{
 						backgroundColor: 'var(--surface)',
-						color: 'var(--text)',
-						'& thead th': { color: 'var(--text)' },
 						'& tbody tr:hover': {
-							backgroundColor: 'var(--primary-dark)',
 							cursor: 'pointer'
 						}
 					}}

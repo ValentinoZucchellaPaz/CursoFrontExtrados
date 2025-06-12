@@ -43,7 +43,7 @@ export default function EditUser() {
             throw new Error("Para actualizar el usuario debes cambiar al menos un campo")
         }
 
-        return updateUser(user.id.toString(), updated).then(res => navigate(`/users/${userId}`, { replace: true }))
+        return updateUser(user.id.toString(), updated).then(res => navigate(`/users/${userId}`, { replace: true })).then(() => navigate(`/users/${userId}`))
     }
 
     if (loading) return <div className="loader-container">
@@ -81,7 +81,12 @@ export default function EditUser() {
                             name: 'contraseña',
                             label: 'Nueva Contraseña',
                             type: 'password',
-                            validate: validatePassword
+                            validate: (pass: string) => {
+                                if (pass.length != 0) {
+                                    return validatePassword(pass)
+                                }
+                                return
+                            }
                         },
                         {
                             name: 'alias',

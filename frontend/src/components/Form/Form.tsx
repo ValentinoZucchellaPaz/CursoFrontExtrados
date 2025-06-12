@@ -109,6 +109,7 @@ const Form = ({
                                 onChange={(_, val) => handleChange(field.name, val ?? '')}
                                 placeholder="Seleccionar..."
                                 sx={{
+                                    backgroundColor: 'var(--bg)',
                                     "& button:hover": {
                                         backgroundColor: 'transparent'
                                     },
@@ -118,7 +119,7 @@ const Form = ({
                                 }}
                             >
                                 {field.options.map((opt) => (
-                                    <Option key={opt} value={opt}>
+                                    <Option sx={{ backgroundColor: 'var(--bg)' }} key={opt} value={opt}>
                                         {opt}
                                     </Option>
                                 ))}
@@ -135,6 +136,7 @@ const Form = ({
                                 required={field.required}
                                 name={field.name}
                                 value={form[field.name]}
+                                sx={{ backgroundColor: 'var(--bg)' }}
                                 onChange={(e) => handleChange(field.name, e.target.value)}
                                 endDecorator={
                                     field.type === 'password' && (

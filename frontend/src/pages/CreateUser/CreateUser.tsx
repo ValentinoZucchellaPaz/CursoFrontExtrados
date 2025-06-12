@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Card } from "../../components/Card";
 import { Form } from "../../components/Form";
 import { createUser } from "../../services/userService";
@@ -6,9 +7,9 @@ import { validateAlias, validateEmail, validateName, validatePassword, validateR
 import './CreateUser.css'
 
 export default function CreateUser() {
-
+    const navigate = useNavigate()
     const handleSubmit = (data: Record<string, string>) => {
-        return createUser(mapFormToCreateUser(data), false);
+        return createUser(mapFormToCreateUser(data), false).then(() => navigate('/users'));
     }
     return (
         <div className="form-container">
