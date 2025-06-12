@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { PokemonsGrid } from '../../components/PokemonsGrid';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { CircularProgress } from '@mui/joy';
+import { ScrollToTopButton } from '../../components/ScrollToTopButton';
 
 const Pokemons = ({ }) => {
 
@@ -18,11 +19,6 @@ const Pokemons = ({ }) => {
 		), [pokemons, searchTerm]);
 
 	useEffect(() => {
-		console.log("use effect de posts");
-		console.log(status);
-		console.log(pokemons);
-
-
 		if (status == "idle") {
 			dispatch(fetchPokemons())
 		}
@@ -46,6 +42,7 @@ const Pokemons = ({ }) => {
 				placeholder='Buscar pokemon por nombre'
 			/>
 			{filteredPokemons && <PokemonsGrid pokemons={filteredPokemons} />}
+			<ScrollToTopButton />
 		</div>
 	);
 };

@@ -11,6 +11,7 @@
     word-break: break-word;
     overflow-wrap: anywhere;
     max-width: 60vw;
+    height: auto;
 }
 
 .card:hover {
@@ -33,6 +34,7 @@
     color: var(--primary-light);
     /* color: var(--primary); */
     text-transform: capitalize;
+    font-weight: bolder;
 }
 
 .card-content p {

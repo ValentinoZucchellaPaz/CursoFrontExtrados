@@ -1,0 +1,40 @@
+.card-section {
+    margin-bottom: 2rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 3rem;
+    width: 70vw;
+    margin: auto;
+}
+
+.card-item {
+    position: relative;
+    cursor: pointer;
+    background-color: var(--surface);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 10px var(--primary);
+    color: var(--text);
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 30vw;
+    transition: opacity 0.3s ease, box-shadow 0.2s ease;
+
+    h3 {
+        text-transform: capitalize;
+    }
+}
+
+.card-item.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.card-item img {
+    width: 100%;
+    border-radius: 8px;
+}

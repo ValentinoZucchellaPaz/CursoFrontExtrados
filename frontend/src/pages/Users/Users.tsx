@@ -7,6 +7,7 @@ import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { MdAdd } from 'react-icons/md'
 import { Button, CircularProgress, Stack } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
+import { ScrollToTopButton } from '../../components/ScrollToTopButton';
 
 
 const Users = () => {
@@ -49,20 +50,18 @@ const Users = () => {
 				/>
 				<Button
 					variant='outlined'
+					color='neutral'
 					startDecorator={<MdAdd />}
 					sx={{
 						backgroundColor: 'var(--surface)',
-						color: 'var(--text)',
-						'&:hover': {
-							backgroundColor: 'var(--primary-dark)'
+						"&:hover": {
+							backgroundColor: 'var(--surface) !important'
 						}
 					}}
 					onClick={() => navigate('/create-user')}>Crear usuario</Button>
 			</Stack>
-
-
-
 			{filteredUsers && <UserTable users={filteredUsers} setUsers={setUsers} />}
+			<ScrollToTopButton />
 		</div>
 	);
 };

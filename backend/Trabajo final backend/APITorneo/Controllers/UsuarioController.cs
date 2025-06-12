@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Models.DTO.Cartas.Request;
 using Models.DTO.Cartas.Response;
 using Models.DTO.Usuarios;
 using Models.DTO.Usuarios.Request;
@@ -29,7 +31,7 @@ namespace APITorneo.Controllers
 
             // validar mail y contraseña, generar y devolver access token y cookie con refresh token
             var user = await _userService.Authenticate(request);
-            if(user == null) return Unauthorized("mail o contraseña incorrectos");
+            if (user == null) return Unauthorized("mail o contraseña incorrectos");
 
             DTOJWT accessToken = _authService.GenerateAccessToken(user.Id, user.Email, user.Role);
             DTOJWT refreshToken = await _authService.GenerateRefreshToken(user.Id, user.Email, user.Role);
@@ -80,11 +82,11 @@ namespace APITorneo.Controllers
 
             var accessToken = _authService.GenerateAccessToken(userId, usuario.Email, usuario.Role);
 
-            return Ok(new DTOLoginResponse() { 
-                AccessToken=accessToken.Token,
-                UserEmail=usuario.Email,
-                UserId=usuario.Id,
-                UserRole=usuario.Role,
+            return Ok(new DTOLoginResponse() {
+                AccessToken = accessToken.Token,
+                UserEmail = usuario.Email,
+                UserId = usuario.Id,
+                UserRole = usuario.Role,
             });
         }
 
@@ -103,7 +105,7 @@ namespace APITorneo.Controllers
 
             var userId = int.Parse(parts[0]);
             string refreshToken = parts[1];
-            if(refreshToken == null) return NoContent();
+            if (refreshToken == null) return NoContent();
 
             // elimino de db
             var res = await _authService.BorrarRefreshToken(userId, refreshToken);
@@ -155,7 +157,7 @@ namespace APITorneo.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState); // Devuelve errores de validación
             var edited = await _userService.EditarUsuario(id, camposActualizados);
-            
+
             return edited ? NoContent() : BadRequest("No se pudo editar correctamente el usuario");
         }
 
@@ -171,12 +173,24 @@ namespace APITorneo.Controllers
 
         // METODOS DEL JUGADOR PARA VER SUS CARTAS
         [HttpGet("coleccion")]
-        [Authorize(Roles="jugador")]
+        [Authorize(Roles = "jugador")]
         [ProducesResponseType<IEnumerable<Carta>>(200)]
         public async Task<IActionResult> GetColeccion()
         {
             var creador = GetInfoCreador();
             var res = await _userService.GetColeccion(creador.Id);
+            return Ok(res);
+        }
+
+        [HttpGet("coleccion")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType<IEnumerable<Carta>>(200)]
+        public async Task<IActionResult> GetColeccionPorIdUsuario (int userId) 
+        {
+            // validar que existe usuario (si no existe se lanza excepcion desde userService)
+            await _userService.GetUsuarioDisponiblePorId(UserRole.admin, userId.ToString());
+
+            var res = await _userService.GetColeccion(userId);
             return Ok(res);
         }
 
@@ -199,6 +213,23 @@ namespace APITorneo.Controllers
             var res = await _userService.GetMazoPorId(creador.Id, id);
             return Ok(res);
         }
+
+        [HttpPost("agregar-a-coleccion-de-jugador")]
+        [Authorize(Roles = "admin")]
+        [EndpointDescription("Retorna la cant de cartas subidas")]
+        public async Task<IActionResult> AgregarAColeccionDeJugador(DTOAgregarCartas request)
+        {
+            // validar que id es de jugador activo
+            var jugador = await _userService.GetUsuarioDisponiblePorId(UserRole.admin, request.IdJugador.ToString()) ?? throw new KeyNotFoundException($"No se encontró el usuario con id {request.IdJugador}");
+            if (!Enum.TryParse<UserRole>(jugador.Role, true, out var parsedRole) || !Enum.IsDefined(typeof(UserRole), parsedRole))
+                if (parsedRole != UserRole.jugador)
+                    throw new ArgumentException($"El usuario con id {request.IdJugador} no es un jugador");
+            // agrego cartas
+            var res = await _userService.AgregarAColeccion(request.IdJugador, request.Cartas);
+            return Ok(res);
+        }
+
+
 
         [HttpPost("agregar-a-coleccion")]
         [Authorize(Roles = "jugador")]

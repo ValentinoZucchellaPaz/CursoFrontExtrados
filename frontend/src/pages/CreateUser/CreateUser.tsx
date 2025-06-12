@@ -1,14 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { Card } from "../../components/Card";
 import { Form } from "../../components/Form";
 import { createUser } from "../../services/userService";
 import { mapFormToCreateUser } from "../../utils/mapForm";
-import { validateEmail } from "../../utils/validations";
+import { validateAlias, validateEmail, validateName, validatePassword, validateRole, validateURL } from "../../utils/validations";
 import './CreateUser.css'
 
 export default function CreateUser() {
-
+    const navigate = useNavigate()
     const handleSubmit = (data: Record<string, string>) => {
-        return createUser(mapFormToCreateUser(data), false);
+        return createUser(mapFormToCreateUser(data), false).then(() => navigate('/users'));
     }
     return (
         <div className="form-container">
@@ -23,6 +24,7 @@ export default function CreateUser() {
                             label: 'Nombre',
                             type: 'text',
                             required: true,
+                            validate: validateName
                         },
                         {
                             name: 'email',
@@ -36,23 +38,27 @@ export default function CreateUser() {
                             label: 'Contraseña',
                             type: 'password',
                             required: true,
+                            validate: validatePassword
                         },
                         {
                             name: 'alias',
                             label: 'Alias',
                             type: 'text',
+                            validate: validateAlias
                         },
                         {
                             name: 'avatar',
                             label: 'Avatar (url de imagen)',
-                            type: 'url'
+                            type: 'url',
+                            validate: validateURL
                         },
                         {
                             name: 'role',
                             label: 'Rol',
                             type: 'select',
                             required: true,
-                            options: ['admin', 'organizador', 'juez', 'jugador']
+                            options: ['admin', 'organizador', 'juez', 'jugador'],
+                            validate: validateRole
                         },
                     ]}
                     onSubmit={handleSubmit} />

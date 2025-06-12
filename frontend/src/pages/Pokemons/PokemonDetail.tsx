@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
 import { fetchPokemons } from "../../store/slices/pokemonSlice";
 import { MdArrowBack } from "react-icons/md";
-import { CircularProgress } from "@mui/joy";
+import { Button, CircularProgress } from "@mui/joy";
 
 export default function PokemonDetail({ }) {
     const { pokemonName } = useParams()
@@ -38,7 +38,11 @@ export default function PokemonDetail({ }) {
 
     return (
         <div className="pokemon-detail-container">
-            <button onClick={() => navigate(-1)}><MdArrowBack color='var(--primary)' /></button>
+            <Button variant='outlined' sx={{
+                position: 'absolute',
+                top: "10px",
+                left: "10px",
+            }} onClick={() => navigate(-1)}><MdArrowBack /></Button>
             <Card
                 title={pokemon.nombre}
                 image={pokemon.ilustracion}

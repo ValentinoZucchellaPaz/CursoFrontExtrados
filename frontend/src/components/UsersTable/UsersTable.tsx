@@ -51,10 +51,7 @@ export default function UserTable({ users, setUsers }: { users: APIUserProps[], 
 					hoverRow
 					sx={{
 						backgroundColor: 'var(--surface)',
-						color: 'var(--text)',
-						'& thead th': { color: 'var(--text)' },
 						'& tbody tr:hover': {
-							backgroundColor: 'var(--primary-dark)',
 							cursor: 'pointer'
 						}
 					}}
@@ -83,7 +80,7 @@ export default function UserTable({ users, setUsers }: { users: APIUserProps[], 
 											disabled={u.role === 'admin'}
 											onClick={(e) => {
 												e.stopPropagation()
-												navigate(`/usuarios/${u.id}/editar`)
+												navigate(`/users/${u.id}/editar`)
 											}}
 										>
 											<MdEdit />

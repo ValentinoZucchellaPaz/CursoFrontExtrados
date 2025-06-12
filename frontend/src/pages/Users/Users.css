@@ -7,14 +7,7 @@
 
     .card {
         padding: 5rem;
-    }
-
-    .back-arrow {
-        background-color: transparent;
-        border: 1px solid var(--primary);
-        position: absolute;
-        top: 10px;
-        left: 10px;
+        transform: none;
     }
 }
 
@@ -23,18 +16,41 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem 5rem;
+    margin: 0 5rem;
     gap: 2rem;
+    position: relative;
 
     .card {
         width: 100%;
     }
 }
 
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+    margin: 2rem 0;
+
+    .card {
+        padding: 1rem 5rem;
+
+        &:hover {
+            transform: none;
+        }
+    }
+}
+
 
 @media (max-width:600px) {
     .users {
-        margin: 2rem 20px;
+        margin: 0 20px;
+    }
+
+    .user-detail-container {
+        .card {
+            padding: 2rem;
+        }
     }
 
     .hide-mobile {

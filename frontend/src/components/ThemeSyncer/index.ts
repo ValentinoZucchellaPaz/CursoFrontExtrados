@@ -1,0 +1,1 @@
+export { default as ThemeSyncer } from './ThemeSyncer';

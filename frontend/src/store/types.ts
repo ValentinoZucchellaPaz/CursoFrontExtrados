@@ -7,16 +7,16 @@ export interface AuthState {
     userRole: string | null;
 }
 
-export interface APILoginProps { email: string; contraseña: string }
+export interface LoginPayload { email: string; contraseña: string }
 
-export interface APILoginResponse {
+export interface LoginResponse {
     accessToken: string
     userId: number
     userEmail: string
     userRole: string
 }
 
-export interface APICreateUserProps {
+export interface CreateUserPayload {
     nombre: string,
     pais: string, // validar pais
     email: string, // validar email
@@ -38,7 +38,7 @@ export interface APIUserProps {
     id: number,
     name: string,
     pais: string,
-    email?: string,
+    email: string,
     role: "admin" | "juez" | "org" | "jugador",
     alias: string,
     avatar: string

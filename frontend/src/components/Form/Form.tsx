@@ -80,8 +80,17 @@ const Form = ({
                 return acc;
             }, {} as Record<string, string>))
         } catch (err: any) {
-            console.log(err);
-            setError(err.message || 'Error al enviar el formulario');
+            if (err?.response?.data?.Detail) {
+                const detail: string = err?.response?.data?.Detail.toLowerCase()
+                if (detail.includes('duplicate entry')) {
+                    detail.includes('email') && setError('Ya existe un usuario con ese email')
+                    detail.includes('alias') && setError('Ya existe un usuario con ese alias')
+                } else {
+                    setError(detail)
+                }
+            } else {
+                setError(err.message || 'Error al enviar el formulario');
+            }
         } finally {
             setLoading(false);
         }
@@ -96,9 +105,11 @@ const Form = ({
                         {field.type === 'select' && field.options ? (
                             <Select
                                 value={form[field.name]}
+                                required={field.required}
                                 onChange={(_, val) => handleChange(field.name, val ?? '')}
                                 placeholder="Seleccionar..."
                                 sx={{
+                                    backgroundColor: 'var(--bg)',
                                     "& button:hover": {
                                         backgroundColor: 'transparent'
                                     },
@@ -108,7 +119,7 @@ const Form = ({
                                 }}
                             >
                                 {field.options.map((opt) => (
-                                    <Option key={opt} value={opt}>
+                                    <Option sx={{ backgroundColor: 'var(--bg)' }} key={opt} value={opt}>
                                         {opt}
                                     </Option>
                                 ))}
@@ -122,8 +133,10 @@ const Form = ({
                                             : 'password'
                                         : field.type
                                 }
+                                required={field.required}
                                 name={field.name}
                                 value={form[field.name]}
+                                sx={{ backgroundColor: 'var(--bg)' }}
                                 onChange={(e) => handleChange(field.name, e.target.value)}
                                 endDecorator={
                                     field.type === 'password' && (

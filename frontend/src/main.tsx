@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import '@fontsource/inter'
+import { CssVarsProvider } from '@mui/joy';
+import { ThemeSyncer } from './components/ThemeSyncer';
 
 const rootElement = document.getElementById('root')
 
@@ -14,9 +16,14 @@ document.documentElement.setAttribute("data-theme", userPrefersDark ? "dark" : "
 
 ReactDOM.createRoot(rootElement as HTMLElement).render(
   // <StrictMode>
+
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <CssVarsProvider defaultColorScheme={'dark'}>
+        <ThemeSyncer>
+          <App />
+        </ThemeSyncer>
+      </CssVarsProvider>
     </Provider>
   </BrowserRouter>
   // </StrictMode>,
