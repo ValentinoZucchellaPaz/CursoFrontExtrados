@@ -33,6 +33,7 @@ export default function AddToCollection() {
 	// si carta esta repetida en array llega el error hasta db (mejorar validacion back) (se hace validacion en front tmb)
 	// meter una opcion de ver coleccion de cartas de usuario dentro de user details (desplegar dropdown)
 	// mejorar la vista de cartas, mostrar nombres y centrar imagenes en card
+	// validacion de 15 max 6 min
 
 	// funcion para agregar cartas en db
 	async function handleSubmit() {
