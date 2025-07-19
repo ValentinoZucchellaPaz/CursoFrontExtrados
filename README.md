@@ -2,8 +2,10 @@
 
 Proyecto fullstack que gestiona un torneo de cartas con usuarios, autenticación, roles, colección de cartas y más.
 
-![Pantalla principal](./capturas/home.png)
-![Detalle usuario](./capturas/user-details.png)
+![Login de usuario (hardcodeado)](./capturas/login_page.png)
+![Pokemons Page](./capturas/pokemons_page.png)
+![Users Table](./capturas/users_table.png)
+![Create User Form](./capturas/create_user_form.png)
 
 ---
 
